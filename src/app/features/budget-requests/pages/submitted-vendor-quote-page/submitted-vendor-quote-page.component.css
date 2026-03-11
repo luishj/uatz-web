@@ -1,0 +1,128 @@
+.page-shell {
+  display: grid;
+  gap: 1rem;
+}
+
+.page-header,
+.quote-item-card {
+  display: flex;
+}
+
+.page-header {
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.page-header h1,
+.support-copy,
+.panel-heading h2,
+.message-copy,
+.quote-item-copy p {
+  margin: 0;
+}
+
+.page-header h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.support-copy,
+.quote-item-copy p,
+.message-copy,
+.quote-item-values span,
+.quote-item-values small,
+.summary-grid span {
+  color: var(--ink-muted);
+}
+
+.back-link,
+.panel,
+.summary-grid article {
+  border-radius: 1.4rem;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.1rem;
+  color: var(--ink-strong);
+  text-decoration: none;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.summary-grid article,
+.panel {
+  padding: 1.2rem;
+}
+
+.summary-grid strong {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 1.2rem;
+}
+
+.panel-heading {
+  margin-bottom: 1rem;
+}
+
+.quote-item-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.quote-item-card {
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 1.15rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.quote-item-values {
+  display: grid;
+  justify-items: end;
+  gap: 0.2rem;
+  text-align: right;
+}
+
+.quote-item-values strong {
+  font-size: 1.15rem;
+}
+
+.message-copy {
+  line-height: 1.6;
+}
+
+.empty-state.error {
+  border-radius: 1rem;
+  padding: 1rem;
+  color: #8f2c3c;
+  background: rgba(255, 148, 166, 0.18);
+}
+
+@media (max-width: 1080px) {
+  .page-header,
+  .quote-item-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-item-values {
+    justify-items: start;
+    text-align: left;
+  }
+}

@@ -1,0 +1,131 @@
+.shell {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(180deg, rgba(27, 187, 241, 0.22), rgba(62, 204, 245, 0.08));
+  border-right: 1px solid var(--border-strong);
+  backdrop-filter: blur(24px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--brand-main), var(--brand-soft));
+  color: var(--ink-strong);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.brand-title,
+.brand-subtitle,
+.sidebar-card h2,
+.sidebar-card p {
+  margin: 0;
+}
+
+.brand-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brand-subtitle,
+.sidebar-card p {
+  color: var(--ink-muted);
+}
+
+.nav {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.nav a,
+.logout-button {
+  border-radius: 1rem;
+  padding: 0.95rem 1rem;
+  color: var(--ink-strong);
+  text-decoration: none;
+  transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.nav a {
+  background: rgba(255, 255, 255, 0.44);
+  border: 1px solid transparent;
+}
+
+.nav a:hover,
+.nav a.active {
+  transform: translateX(4px);
+  background: rgba(168, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.48);
+  box-shadow: var(--shadow-soft);
+}
+
+.sidebar-card {
+  margin-top: auto;
+  padding: 1.25rem;
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  box-shadow: var(--shadow-soft);
+}
+
+.sidebar-card h2 {
+  margin-bottom: 0.35rem;
+  font-size: 1.15rem;
+}
+
+.role-chip {
+  display: inline-flex;
+  margin-top: 1rem;
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  background: rgba(27, 187, 241, 0.18);
+  color: var(--ink-strong);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.logout-button {
+  border: 1px solid rgba(27, 187, 241, 0.18);
+  background: rgba(255, 255, 255, 0.7);
+  font: inherit;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+.content {
+  padding: 2rem;
+}
+
+@media (max-width: 960px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--border-strong);
+  }
+}

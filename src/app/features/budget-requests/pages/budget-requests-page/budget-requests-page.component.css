@@ -1,0 +1,136 @@
+.page-header,
+.summary-box,
+.table-row {
+  display: flex;
+}
+
+.page-header {
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.page-header h1,
+.support-copy {
+  margin: 0;
+}
+
+.page-header h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.support-copy {
+  margin-top: 0.65rem;
+  color: var(--ink-muted);
+}
+
+.summary-box,
+.table-panel {
+  border-radius: 1.5rem;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.summary-box {
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  min-width: 220px;
+}
+
+.summary-box span {
+  color: var(--ink-muted);
+}
+
+.summary-box strong {
+  margin-top: 0.35rem;
+  font-size: 1.45rem;
+}
+
+.table-panel {
+  margin-top: 1.5rem;
+  padding: 1rem;
+}
+
+.table-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.table-row {
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 1.25rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.68);
+  color: inherit;
+  text-decoration: none;
+}
+
+.table-row > div {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.label {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.empty-state {
+  border-radius: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--ink-muted);
+}
+
+.empty-state.error {
+  color: #902f3b;
+  background: rgba(255, 148, 166, 0.18);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+}
+
+.status-open {
+  background: rgba(27, 187, 241, 0.16);
+  color: #0a5c7a;
+}
+
+.status-sent {
+  background: rgba(98, 221, 248, 0.24);
+  color: #0a5366;
+}
+
+.status-waiting {
+  background: rgba(255, 212, 102, 0.24);
+  color: #855400;
+}
+
+.status-closed {
+  background: rgba(98, 214, 128, 0.2);
+  color: #1b6b32;
+}
+
+.status-default {
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--ink-muted);
+}
+
+@media (max-width: 1080px) {
+  .page-header,
+  .table-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,50 @@
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Visao geral</p>
+    <h1>Operacao pronta para acompanhar pedidos e respostas.</h1>
+  </div>
+  <a routerLink="/requests" class="header-link">Abrir fila de pedidos</a>
+</section>
+
+<section class="stats-grid">
+  <article class="stat-card">
+    <span>Total de pedidos</span>
+    <strong>{{ totalRequests() }}</strong>
+  </article>
+  <article class="stat-card">
+    <span>Abertos</span>
+    <strong>{{ openRequests() }}</strong>
+  </article>
+  <article class="stat-card">
+    <span>Aguardando cotacao</span>
+    <strong>{{ waitingQuotes() }}</strong>
+  </article>
+</section>
+
+<section class="panel">
+  <div class="panel-heading">
+    <div>
+      <p class="eyebrow">Fila recente</p>
+      <h2>Ultimos pedidos cadastrados</h2>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading() && latestRequests().length === 0">
+    Nenhum pedido encontrado. Use a API para cadastrar pedidos e acompanhar aqui.
+  </div>
+
+  <div class="request-list" *ngIf="latestRequests().length > 0">
+    <a class="request-card" *ngFor="let request of latestRequests()" [routerLink]="['/requests', request.id]">
+      <div>
+        <p class="request-title">Pedido #{{ request.id }}</p>
+        <p class="request-meta">Cliente {{ request.clientId }} • {{ request.city || 'Cidade nao informada' }}</p>
+      </div>
+      <div class="request-aside">
+        <span class="status-pill" [ngClass]="getBudgetRequestStatusClass(request.status)">
+          {{ translateBudgetRequestStatus(request.status) }}
+        </span>
+        <time>{{ formatDateTime(request.createdAt) }}</time>
+      </div>
+    </a>
+  </div>
+</section>

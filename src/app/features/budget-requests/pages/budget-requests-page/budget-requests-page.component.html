@@ -1,0 +1,53 @@
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Pedidos</p>
+    <h1>Fila operacional de orcamentos</h1>
+    <p class="support-copy">Acompanhe os pedidos criados pela API e avance para os detalhes de cotacao.</p>
+  </div>
+
+  <div class="summary-box">
+    <span>{{ requests().length }} pedidos</span>
+    <strong>{{ totalItems() }} itens mapeados</strong>
+  </div>
+</section>
+
+<section class="table-panel">
+  <div class="empty-state" *ngIf="!isLoading() && requests().length === 0 && !hasError()">
+    Nenhum pedido encontrado.
+  </div>
+
+  <div class="empty-state error" *ngIf="hasError()">
+    Nao foi possivel carregar a fila de pedidos.
+  </div>
+
+  <div class="table-list" *ngIf="requests().length > 0">
+    <a class="table-row" *ngFor="let request of requests()" [routerLink]="['/requests', request.id]">
+      <div>
+        <span class="label">Pedido</span>
+        <strong>#{{ request.id }}</strong>
+      </div>
+      <div>
+        <span class="label">Cliente</span>
+        <strong>{{ request.clientId }}</strong>
+      </div>
+      <div>
+        <span class="label">Cidade</span>
+        <strong>{{ request.city || 'Nao informada' }}</strong>
+      </div>
+      <div>
+        <span class="label">Itens</span>
+        <strong>{{ request.items.length }}</strong>
+      </div>
+      <div>
+        <span class="label">Status</span>
+        <strong class="status-pill" [ngClass]="getBudgetRequestStatusClass(request.status)">
+          {{ translateBudgetRequestStatus(request.status) }}
+        </strong>
+      </div>
+      <div>
+        <span class="label">Criado em</span>
+        <strong>{{ formatDateTime(request.createdAt) }}</strong>
+      </div>
+    </a>
+  </div>
+</section>

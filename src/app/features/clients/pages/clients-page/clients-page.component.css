@@ -1,0 +1,216 @@
+.page-header h1,
+.support-copy,
+.panel-heading h2,
+.client-card p,
+.request-card p {
+  margin: 0;
+}
+
+.page-header h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.support-copy {
+  margin-top: 0.65rem;
+  color: var(--ink-muted);
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.panel {
+  border-radius: 1.5rem;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-bg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.35rem;
+}
+
+.panel-heading {
+  margin-bottom: 1rem;
+}
+
+.client-list,
+.request-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.client-card {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 1.15rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.62);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.client-card p {
+  margin-top: 0.28rem;
+  color: var(--ink-muted);
+}
+
+.client-card.selected {
+  border-color: var(--border-strong);
+  background: rgba(168, 255, 255, 0.42);
+}
+
+.client-meta {
+  display: grid;
+  justify-items: end;
+  gap: 0.55rem;
+}
+
+.client-id {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 0.45rem 0.75rem;
+  background: rgba(27, 187, 241, 0.14);
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.request-count,
+.status-badge,
+.empty-state {
+  display: inline-flex;
+  border-radius: 1rem;
+  padding: 0.45rem 0.75rem;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
+.status-badge {
+  background: rgba(27, 187, 241, 0.14);
+  color: var(--ink-strong);
+}
+
+.status-open {
+  background: rgba(27, 187, 241, 0.16);
+  color: #0a5c7a;
+}
+
+.status-sent {
+  background: rgba(98, 221, 248, 0.24);
+  color: #0a5366;
+}
+
+.status-waiting {
+  background: rgba(255, 212, 102, 0.24);
+  color: #855400;
+}
+
+.status-closed {
+  background: rgba(98, 214, 128, 0.2);
+  color: #1b6b32;
+}
+
+.status-default {
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--ink-muted);
+}
+
+.empty-state.error {
+  color: #8f2c3c;
+  background: rgba(255, 148, 166, 0.18);
+}
+
+.empty-state {
+  margin: 0;
+  background: rgba(255, 255, 255, 0.56);
+  color: var(--ink-muted);
+  padding: 0.8rem 1rem;
+}
+
+.client-detail {
+  display: grid;
+  gap: 1rem;
+}
+
+.detail-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.detail-summary > div {
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.detail-summary span,
+.request-meta span {
+  display: block;
+  color: var(--ink-muted);
+}
+
+.detail-summary strong {
+  display: block;
+  margin-top: 0.35rem;
+}
+
+.request-card {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 1.15rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.62);
+  color: inherit;
+  text-decoration: none;
+}
+
+.request-card p {
+  margin-top: 0.28rem;
+  color: var(--ink-muted);
+}
+
+.request-meta {
+  max-width: 360px;
+  text-align: right;
+}
+
+.request-meta ul {
+  margin: 0.6rem 0 0;
+  padding-left: 1rem;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 1080px) {
+  .clients-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-card,
+  .request-card {
+    flex-direction: column;
+  }
+
+  .detail-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .client-meta,
+  .request-meta {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .request-meta {
+    flex-direction: column;
+  }
+}

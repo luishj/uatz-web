@@ -1,0 +1,31 @@
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">U</div>
+      <div>
+        <p class="brand-title">UATZ</p>
+        <p class="brand-subtitle">Painel operacional</p>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Visao geral</a>
+      <a routerLink="/requests" routerLinkActive="active">Pedidos</a>
+      <a *ngIf="isAdmin()" routerLink="/clients" routerLinkActive="active">Clientes</a>
+      <a *ngIf="isAdmin()" routerLink="/vendors" routerLinkActive="active">Vendedores</a>
+    </nav>
+
+    <section class="sidebar-card">
+      <p class="eyebrow">Sessao</p>
+      <h2>{{ currentUser()?.name }}</h2>
+      <p>{{ currentUser()?.email }}</p>
+      <span class="role-chip">{{ currentRoleLabel() }}</span>
+    </section>
+
+    <button type="button" class="logout-button" (click)="logout()">Encerrar sessao</button>
+  </aside>
+
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>

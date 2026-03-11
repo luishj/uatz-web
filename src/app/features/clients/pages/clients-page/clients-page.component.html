@@ -1,0 +1,96 @@
+<section class="page-header">
+  <div>
+    <p class="eyebrow">Admin</p>
+    <h1>Clientes originados do WhatsApp</h1>
+    <p class="support-copy">Base recebida pelo fluxo conversacional, com visao de quantos pedidos cada cliente gerou.</p>
+  </div>
+</section>
+
+<section class="clients-grid">
+  <article class="panel">
+    <div class="panel-heading">
+      <div>
+        <p class="eyebrow">Base atual</p>
+        <h2>Clientes cadastrados</h2>
+      </div>
+    </div>
+
+    <div class="empty-state error" *ngIf="hasError()">Nao foi possivel carregar os clientes.</div>
+    <div class="empty-state" *ngIf="!hasError() && !isLoading() && clients().length === 0">
+      Nenhum cliente cadastrado.
+    </div>
+
+    <div class="client-list" *ngIf="clients().length > 0">
+      <button
+        type="button"
+        class="client-card"
+        [class.selected]="selectedClientId() === client.id"
+        *ngFor="let client of clients()"
+        (click)="selectClient(client.id)">
+        <div>
+          <strong>{{ client.phone }}</strong>
+          <p>{{ client.city || 'Cidade nao informada' }} • {{ client.state || 'Estado nao informado' }}</p>
+          <p>
+            Ultimo pedido:
+            {{ client.latestRequest ? ('#' + client.latestRequest.id + ' em ' + formatDateTime(client.latestRequest.createdAt)) : 'nenhum' }}
+          </p>
+        </div>
+        <div class="client-meta">
+          <span class="client-id">Cliente #{{ client.id }}</span>
+          <span class="request-count">{{ client.requestCount }} pedidos</span>
+          <span class="status-badge" [ngClass]="getBudgetRequestStatusClass(client.dominantStatus)">
+            {{ client.dominantStatus === 'NO_REQUESTS' ? 'Sem pedidos' : translateBudgetRequestStatus(client.dominantStatus) }}
+          </span>
+        </div>
+      </button>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="panel-heading" *ngIf="selectedClient() as client">
+      <div>
+        <p class="eyebrow">Detalhamento</p>
+        <h2>{{ client.phone }}</h2>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="!selectedClient() && !hasError()">Selecione um cliente para ver os pedidos.</div>
+
+    <div *ngIf="selectedClient() as client" class="client-detail">
+      <div class="detail-summary">
+        <div>
+          <span>Cidade</span>
+          <strong>{{ client.city || 'Nao informada' }}</strong>
+        </div>
+        <div>
+          <span>Estado</span>
+          <strong>{{ client.state || 'Nao informado' }}</strong>
+        </div>
+        <div>
+          <span>Total de pedidos</span>
+          <strong>{{ client.requestCount }}</strong>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="client.requests.length === 0">
+        Esse cliente ainda nao possui pedidos cadastrados.
+      </div>
+
+      <div class="request-list" *ngIf="client.requests.length > 0">
+        <a class="request-card" *ngFor="let request of client.requests" [routerLink]="['/requests', request.id]">
+          <div>
+            <strong>Pedido #{{ request.id }}</strong>
+            <p>{{ request.city || 'Cidade nao informada' }} • {{ translateBudgetRequestStatus(request.status) }}</p>
+            <p>{{ request.items.length }} itens</p>
+          </div>
+          <div class="request-meta">
+            <span>{{ formatDateTime(request.createdAt) }}</span>
+            <ul>
+              <li *ngFor="let item of request.items">{{ item.productName }} • {{ item.quantity }} {{ item.unit || '' }}</li>
+            </ul>
+          </div>
+        </a>
+      </div>
+    </div>
+  </article>
+</section>
