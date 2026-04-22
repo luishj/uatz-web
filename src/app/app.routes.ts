@@ -8,6 +8,7 @@ import { DashboardHomePageComponent } from './features/dashboard/pages/dashboard
 import { BudgetRequestsPageComponent } from './features/budget-requests/pages/budget-requests-page/budget-requests-page.component';
 import { BudgetRequestDetailPageComponent } from './features/budget-requests/pages/budget-request-detail-page/budget-request-detail-page.component';
 import { SubmittedVendorQuotePageComponent } from './features/budget-requests/pages/submitted-vendor-quote-page/submitted-vendor-quote-page.component';
+import { WhatsAppSimulationPageComponent } from './features/budget-requests/pages/whatsapp-simulation-page/whatsapp-simulation-page.component';
 import { ClientsPageComponent } from './features/clients/pages/clients-page/clients-page.component';
 import { VendorsPageComponent } from './features/vendors/pages/vendors-page/vendors-page.component';
 
@@ -30,6 +31,10 @@ export const appRoutes: Routes = [
       {
         path: 'requests',
         component: BudgetRequestsPageComponent
+      },
+      {
+        path: 'requests/simulate-whatsapp',
+        component: WhatsAppSimulationPageComponent
       },
       {
         path: 'requests/:id',

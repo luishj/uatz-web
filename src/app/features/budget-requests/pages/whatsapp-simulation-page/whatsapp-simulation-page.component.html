@@ -1,0 +1,47 @@
+<section class="page-shell">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Entrada simulada</p>
+      <h1>Simular mensagem do WhatsApp</h1>
+      <p class="support-copy">Crie um pedido a partir de uma mensagem bruta para revisar os itens antes da distribuicao.</p>
+    </div>
+
+    <a routerLink="/requests" class="back-link">Voltar aos pedidos</a>
+  </header>
+
+  <form class="panel form-grid" [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      <span>Telefone</span>
+      <input type="text" formControlName="phone" placeholder="11999999999" />
+    </label>
+
+    <label>
+      <span>Cidade</span>
+      <input type="text" formControlName="city" placeholder="Sao Paulo" />
+    </label>
+
+    <label>
+      <span>Estado</span>
+      <input type="text" formControlName="state" placeholder="SP" />
+    </label>
+
+    <label class="full-width">
+      <span>Mensagem recebida</span>
+      <textarea
+        rows="8"
+        formControlName="message"
+        placeholder="Ex.: 10 sacos de cimento&#10;5 caixas de piso&#10;entrega no centro"></textarea>
+    </label>
+
+    <div class="hint-card full-width">
+      <strong>Como a simulacao funciona</strong>
+      <p>O sistema tenta quebrar a mensagem em itens por linha, virgula ou ponto e virgula. Depois voce revisa o pedido antes de distribuir.</p>
+    </div>
+
+    <p class="feedback error full-width" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+    <button type="submit" class="full-width" [disabled]="isSubmitting()">
+      {{ isSubmitting() ? 'Criando pedido...' : 'Criar pedido a partir da mensagem' }}
+    </button>
+  </form>
+</section>

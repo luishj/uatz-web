@@ -2,7 +2,7 @@
   <div>
     <p class="eyebrow">Pedido detalhado</p>
     <h1>Pedido #{{ request.id }}</h1>
-    <p class="support-copy">Cliente {{ request.clientId }} • {{ request.city || 'Cidade nao informada' }}</p>
+    <p class="support-copy">Cliente {{ request.clientPhone }} • {{ request.city || 'Cidade nao informada' }}</p>
     <span class="status-pill" [ngClass]="getBudgetRequestStatusClass(request.status)">
       {{ translateBudgetRequestStatus(request.status) }}
     </span>
@@ -27,6 +27,57 @@
 <div class="empty-state error" *ngIf="errorMessage()">{{ errorMessage() }}</div>
 
 <section class="detail-grid" *ngIf="request() as request">
+  <article class="panel" *ngIf="isAdminOrOperator()">
+    <div class="panel-heading">
+      <div>
+        <p class="eyebrow">Triagem</p>
+        <h2>Revisao do pedido</h2>
+      </div>
+    </div>
+
+    <div class="source-message-card" *ngIf="request.sourceMessage">
+      <span>Mensagem original</span>
+      <p>{{ request.sourceMessage }}</p>
+    </div>
+
+    <form [formGroup]="reviewForm" class="review-form" (ngSubmit)="saveReview()">
+      <label>
+        <span>Cidade do pedido</span>
+        <input type="text" formControlName="city" placeholder="Cidade para entrega ou retirada" />
+      </label>
+
+      <div class="review-items" formArrayName="items">
+        <div class="review-item-card" *ngFor="let itemControl of reviewItems.controls; let index = index" [formGroupName]="index">
+          <label>
+            <span>Descricao do item</span>
+            <input type="text" formControlName="productName" placeholder="Ex.: Cimento CP2 50kg" />
+          </label>
+
+          <label>
+            <span>Quantidade</span>
+            <input type="number" formControlName="quantity" step="0.01" min="0.01" />
+          </label>
+
+          <label>
+            <span>Unidade</span>
+            <input type="text" formControlName="unit" placeholder="saco, caixa, un..." />
+          </label>
+
+          <button type="button" class="secondary-button compact-button" (click)="removeReviewItem(index)" [disabled]="reviewItems.length <= 1">
+            Remover
+          </button>
+        </div>
+      </div>
+
+      <div class="review-actions">
+        <button type="button" class="secondary-button" (click)="addReviewItem()">Adicionar item</button>
+        <button type="submit" [disabled]="isReviewing()">
+          {{ isReviewing() ? 'Salvando revisao...' : 'Salvar revisao' }}
+        </button>
+      </div>
+    </form>
+  </article>
+
   <article class="panel">
     <div class="panel-heading">
       <div>

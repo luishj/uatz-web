@@ -41,6 +41,7 @@ export class BudgetRequestDetailPageComponent {
 
   readonly isLoading = signal(true);
   readonly isSubmitting = signal(false);
+  readonly isReviewing = signal(false);
   readonly isDispatching = signal(false);
   readonly isDeclining = signal(false);
   readonly errorMessage = signal('');
@@ -65,6 +66,11 @@ export class BudgetRequestDetailPageComponent {
     message: ['']
   });
 
+  readonly reviewForm = this.formBuilder.nonNullable.group({
+    city: [''],
+    items: this.formBuilder.array([] as Array<ReturnType<BudgetRequestDetailPageComponent['createReviewItemGroup']>>)
+  });
+
   constructor() {
     this.quoteForm.controls.items.valueChanges
       .pipe(takeUntilDestroyed())
@@ -84,6 +90,10 @@ export class BudgetRequestDetailPageComponent {
     return this.quoteForm.controls.items;
   }
 
+  get reviewItems(): FormArray<ReturnType<BudgetRequestDetailPageComponent['createReviewItemGroup']>> {
+    return this.reviewForm.controls.items;
+  }
+
   viewSubmittedQuote() {
     const currentRequest = this.request();
     if (!currentRequest) {
@@ -91,6 +101,52 @@ export class BudgetRequestDetailPageComponent {
     }
 
     this.router.navigate(['/requests', currentRequest.id, 'submitted-quote']);
+  }
+
+  addReviewItem() {
+    this.reviewItems.push(this.createReviewItemGroup('', 1, 'un'));
+  }
+
+  removeReviewItem(index: number) {
+    if (this.reviewItems.length <= 1) {
+      return;
+    }
+
+    this.reviewItems.removeAt(index);
+  }
+
+  saveReview() {
+    const currentRequest = this.request();
+    if (!currentRequest || this.reviewForm.invalid || this.isReviewing()) {
+      this.reviewForm.markAllAsTouched();
+      return;
+    }
+
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    this.isReviewing.set(true);
+
+    this.budgetRequestsService
+      .review(currentRequest.id, {
+        city: this.reviewForm.controls.city.getRawValue(),
+        items: this.reviewItems.controls.map((control) => ({
+          productId: null,
+          productName: control.controls.productName.getRawValue(),
+          quantity: Number(control.controls.quantity.getRawValue() || 0),
+          unit: control.controls.unit.getRawValue()
+        }))
+      })
+      .pipe(finalize(() => this.isReviewing.set(false)))
+      .subscribe({
+        next: (request) => {
+          this.request.set(request);
+          this.reviewForm.patchValue({ city: request.city ?? '' });
+          this.rebuildReviewItems(request);
+          this.rebuildQuoteItems(request);
+          this.successMessage.set('Pedido revisado com sucesso.');
+        },
+        error: () => this.errorMessage.set('Nao foi possivel salvar a revisao do pedido.')
+      });
   }
 
   dispatchRequest() {
@@ -218,6 +274,8 @@ export class BudgetRequestDetailPageComponent {
           this.assignedVendors.set(result.assignedVendors);
           this.myAssignment.set(result.myAssignment);
           this.currentVendor.set(result.currentVendor);
+          this.reviewForm.patchValue({ city: result.request.city ?? '' });
+          this.rebuildReviewItems(result.request);
           this.rebuildQuoteItems(result.request);
 
           if (this.authService.isVendor() && !result.currentVendor) {
@@ -259,6 +317,14 @@ export class BudgetRequestDetailPageComponent {
     this.updateTotalQuoteAmount();
   }
 
+  private rebuildReviewItems(request: BudgetRequest) {
+    this.reviewItems.clear();
+
+    request.items.forEach((item) => {
+      this.reviewItems.push(this.createReviewItemGroup(item.productName, item.quantity, item.unit ?? 'un'));
+    });
+  }
+
   private createQuoteItemGroup(budgetItemId: number, productName: string, quantity: number, unit: string, unitPrice: number) {
     return this.formBuilder.nonNullable.group({
       budgetItemId: [budgetItemId],
@@ -266,6 +332,14 @@ export class BudgetRequestDetailPageComponent {
       quantity: [quantity],
       unit: [unit],
       unitPrice: [unitPrice, [Validators.required, Validators.min(0)]]
+    });
+  }
+
+  private createReviewItemGroup(productName: string, quantity: number, unit: string) {
+    return this.formBuilder.nonNullable.group({
+      productName: [productName, [Validators.required, Validators.maxLength(150)]],
+      quantity: [quantity, [Validators.required, Validators.min(0.01)]],
+      unit: [unit, [Validators.maxLength(30)]]
     });
   }
 

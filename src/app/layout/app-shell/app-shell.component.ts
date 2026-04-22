@@ -16,6 +16,10 @@ export class AppShellComponent {
 
   readonly currentUser = this.authService.currentUser;
   readonly isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
+  readonly isAdminOrOperator = computed(() => {
+    const role = this.currentUser()?.role;
+    return role === 'ADMIN' || role === 'OPERATOR';
+  });
   readonly currentRoleLabel = computed(() => {
     switch (this.currentUser()?.role) {
       case 'ADMIN':

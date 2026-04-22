@@ -82,7 +82,9 @@ label span,
 .quote-list,
 .quote-form,
 .quote-form-inner,
-.assignment-list {
+.assignment-list,
+.review-form,
+.review-items {
   display: grid;
   gap: 0.85rem;
 }
@@ -95,6 +97,12 @@ label span,
 .distribution-actions {
   display: grid;
   gap: 0.85rem;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .vendor-actions-row {
@@ -115,6 +123,23 @@ label span,
   border-radius: 1.15rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.62);
+}
+
+.source-message-card {
+  border-radius: 1.15rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.source-message-card span {
+  display: block;
+  color: var(--ink-muted);
+}
+
+.source-message-card p {
+  margin: 0.35rem 0 0;
+  white-space: pre-wrap;
 }
 
 .item-card p,
@@ -190,6 +215,16 @@ label {
   background: rgba(255, 255, 255, 0.62);
 }
 
+.review-item-card {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) repeat(2, minmax(120px, 1fr)) auto;
+  gap: 0.85rem;
+  border-radius: 1.15rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.62);
+  align-items: end;
+}
+
 .assignment-card {
   display: flex;
   align-items: start;
@@ -250,6 +285,10 @@ label {
   border: 1px solid var(--border-strong);
   background: rgba(255, 255, 255, 0.74);
   color: var(--ink-strong);
+}
+
+.compact-button {
+  padding-inline: 1.1rem;
 }
 
 .quote-item-copy strong {
@@ -386,6 +425,12 @@ button:disabled {
   .detail-grid,
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .review-item-card,
+  .review-actions {
+    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 
   .quote-side {

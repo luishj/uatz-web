@@ -11,6 +11,7 @@
     <nav class="nav">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Visao geral</a>
       <a routerLink="/requests" routerLinkActive="active">Pedidos</a>
+      <a *ngIf="isAdminOrOperator()" routerLink="/requests/simulate-whatsapp" routerLinkActive="active">Simular WhatsApp</a>
       <a *ngIf="isAdmin()" routerLink="/clients" routerLinkActive="active">Clientes</a>
       <a *ngIf="isAdmin()" routerLink="/vendors" routerLinkActive="active">Vendedores</a>
     </nav>
