@@ -1,0 +1,16 @@
+.lista-orcamento {
+  &__resumo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+
+    strong {
+      font-size: 1.05rem;
+    }
+  }
+
+  &__alerta {
+    margin-bottom: 16px;
+  }
+}

@@ -1,0 +1,150 @@
+<uatz-pagina-cabecalho
+  [eyebrow]="idioma.FORNECEDOR.EYEBROW"
+  [titulo]="idioma.FORNECEDOR.TITULO"
+  [subtitulo]="idioma.FORNECEDOR.SUBTITULO"></uatz-pagina-cabecalho>
+
+<nz-alert
+  *ngIf="flagFalha"
+  nzType="error"
+  [nzMessage]="idioma.FORNECEDOR.FALHA_CARREGAR"
+  nzShowIcon
+  class="fornecedor__alerta"></nz-alert>
+
+<div class="uatz-grid-2">
+  <nz-card [nzTitle]="tituloFormularioTemplate">
+    <ng-template #tituloFormularioTemplate>
+      <p class="eyebrow">{{ idioma.FORNECEDOR.NOVO }}</p>
+      <h2 class="fornecedor__titulo-painel">{{ tituloFormulario }}</h2>
+    </ng-template>
+
+    <form nz-form [formGroup]="form" (ngSubmit)="salvar()" nzLayout="vertical">
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="name">{{ idioma.FORNECEDOR.NOME }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="idioma.FORM_VALIDATION.REQUIRED">
+          <input nz-input id="name" formControlName="name" [placeholder]="idioma.FORNECEDOR.NOME_PLACEHOLDER" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-row [nzGutter]="16">
+        <div nz-col nzXs="24" nzSm="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzFor="phone">{{ idioma.FORNECEDOR.TELEFONE }}</nz-form-label>
+            <nz-form-control [nzErrorTip]="erroTelefone">
+              <input nz-input id="phone" formControlName="phone" placeholder="11988888888" />
+            </nz-form-control>
+            <ng-template #erroTelefone let-control>
+              <ng-container *ngIf="control.hasError('required')">{{ idioma.FORM_VALIDATION.REQUIRED }}</ng-container>
+              <ng-container *ngIf="control.hasError('telefone')">{{ idioma.FORM_VALIDATION.INVALID }}</ng-container>
+            </ng-template>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="12">
+          <nz-form-item>
+            <nz-form-label nzRequired nzFor="email">{{ idioma.FORNECEDOR.EMAIL }}</nz-form-label>
+            <nz-form-control [nzErrorTip]="erroEmail">
+              <input nz-input id="email" type="email" formControlName="email" placeholder="contato@fornecedor.com" />
+            </nz-form-control>
+            <ng-template #erroEmail let-control>
+              <ng-container *ngIf="control.hasError('required')">{{ idioma.FORM_VALIDATION.REQUIRED }}</ng-container>
+              <ng-container *ngIf="control.hasError('email')">{{ idioma.FORM_VALIDATION.EMAIL }}</ng-container>
+            </ng-template>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <nz-form-item>
+        <nz-form-label nzFor="password">{{ rotuloSenha }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="idioma.FORM_VALIDATION.MINLENGTH + ' 6'">
+          <input nz-input id="password" type="password" formControlName="password" [placeholder]="placeholderSenha" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-row [nzGutter]="16">
+        <div nz-col nzXs="24" nzSm="16">
+          <nz-form-item>
+            <nz-form-label nzFor="city">{{ idioma.FORNECEDOR.CIDADE }}</nz-form-label>
+            <nz-form-control>
+              <input nz-input id="city" formControlName="city" placeholder="São Paulo" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzXs="24" nzSm="8">
+          <nz-form-item>
+            <nz-form-label nzFor="state">{{ idioma.FORNECEDOR.ESTADO }}</nz-form-label>
+            <nz-form-control [nzErrorTip]="idioma.FORM_VALIDATION.INVALID">
+              <input nz-input id="state" formControlName="state" placeholder="SP" maxlength="2" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <nz-form-item>
+        <nz-form-control>
+          <label nz-checkbox formControlName="active">{{ idioma.FORNECEDOR.ATIVO }}</label>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div class="fornecedor__acoes">
+        <button nz-button nzType="primary" [nzLoading]="flagSalvando" type="submit">
+          {{ flagSalvando ? idioma.FORNECEDOR.SALVANDO : rotuloBotaoSalvar }}
+        </button>
+        <button *ngIf="codigoEmEdicao" nz-button nzType="default" type="button" (click)="cancelarEdicao()">
+          {{ idioma.FORNECEDOR.CANCELAR }}
+        </button>
+      </div>
+    </form>
+  </nz-card>
+
+  <nz-card [nzTitle]="tituloBase">
+    <ng-template #tituloBase>
+      <p class="eyebrow">{{ idioma.FORNECEDOR.BASE_ATUAL }}</p>
+      <h2 class="fornecedor__titulo-painel">{{ idioma.FORNECEDOR.CADASTRADOS }}</h2>
+    </ng-template>
+
+    <nz-empty
+      *ngIf="!flagCarregando && !flagFalha && fornecedores.length === 0"
+      [nzNotFoundContent]="idioma.FORNECEDOR.SEM_FORNECEDORES"></nz-empty>
+
+    <nz-list *ngIf="fornecedores.length > 0" nzSize="small">
+      <nz-list-item *ngFor="let fornecedor of fornecedores">
+        <nz-list-item-meta [nzTitle]="tituloFornecedor" [nzDescription]="descricaoFornecedor">
+          <ng-template #tituloFornecedor>
+            <strong>{{ fornecedor.name }}</strong>
+          </ng-template>
+          <ng-template #descricaoFornecedor>
+            <span>{{ descricaoCidade(fornecedor.city) }} • {{ descricaoEstado(fornecedor.state) }}</span>
+            <br />
+            <span>{{ formatarTelefone(fornecedor.phone) }}<ng-container *ngIf="fornecedor.email"> • {{ fornecedor.email }}</ng-container></span>
+          </ng-template>
+        </nz-list-item-meta>
+
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <nz-tag [nzColor]="fornecedor.active ? 'green' : 'default'">
+              {{ fornecedor.active ? idioma.FORNECEDOR.SITUACAO_ATIVO : idioma.FORNECEDOR.SITUACAO_INATIVO }}
+            </nz-tag>
+          </nz-list-item-action>
+          <nz-list-item-action>
+            <button nz-button nzType="link" nzSize="small" (click)="editar(fornecedor)">
+              {{ idioma.FORNECEDOR.ACAO_EDITAR }}
+            </button>
+          </nz-list-item-action>
+          <nz-list-item-action>
+            <button
+              nz-button
+              nzType="link"
+              nzSize="small"
+              [nzDanger]="!!fornecedor.active"
+              nz-popconfirm
+              [nzPopconfirmTitle]="fornecedor.active ? idioma.FORNECEDOR.ACAO_INATIVAR : idioma.FORNECEDOR.ACAO_REATIVAR"
+              (nzOnConfirm)="alternarSituacao(fornecedor)">
+              {{ fornecedor.active ? idioma.FORNECEDOR.ACAO_INATIVAR : idioma.FORNECEDOR.ACAO_REATIVAR }}
+            </button>
+          </nz-list-item-action>
+        </ul>
+      </nz-list-item>
+    </nz-list>
+  </nz-card>
+</div>

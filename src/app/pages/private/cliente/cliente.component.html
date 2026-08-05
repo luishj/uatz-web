@@ -1,0 +1,109 @@
+<uatz-pagina-cabecalho
+  [eyebrow]="idioma.CLIENTE.EYEBROW"
+  [titulo]="idioma.CLIENTE.TITULO"
+  [subtitulo]="idioma.CLIENTE.SUBTITULO"></uatz-pagina-cabecalho>
+
+<nz-alert
+  *ngIf="flagFalha"
+  nzType="error"
+  [nzMessage]="idioma.CLIENTE.FALHA_CARREGAR"
+  nzShowIcon
+  class="cliente__alerta"></nz-alert>
+
+<div class="uatz-grid-2">
+  <nz-card [nzTitle]="tituloBase">
+    <ng-template #tituloBase>
+      <p class="eyebrow">{{ idioma.CLIENTE.BASE_ATUAL }}</p>
+      <h2 class="cliente__titulo-painel">{{ idioma.CLIENTE.CADASTRADOS }}</h2>
+    </ng-template>
+
+    <nz-empty
+      *ngIf="!flagCarregando && !flagFalha && clientes.length === 0"
+      [nzNotFoundContent]="idioma.CLIENTE.SEM_CLIENTES"></nz-empty>
+
+    <nz-list *ngIf="clientes.length > 0" nzSize="small">
+      <nz-list-item
+        *ngFor="let cliente of clientes"
+        class="cliente__item"
+        [class.cliente__item--selecionado]="clienteSelecionado?.id === cliente.id"
+        (click)="selecionarCliente(cliente)">
+        <nz-list-item-meta [nzTitle]="tituloCliente" [nzDescription]="descricaoCliente">
+          <ng-template #tituloCliente>
+            <strong>{{ formatarTelefone(cliente.phone) }}</strong>
+          </ng-template>
+          <ng-template #descricaoCliente>
+            <span>{{ descricaoCidade(cliente.city) }} • {{ descricaoEstado(cliente.state) }}</span>
+            <br />
+            <span>{{ descricaoUltimoOrcamento(cliente) }}</span>
+          </ng-template>
+        </nz-list-item-meta>
+
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <span class="uatz-texto-apoio">{{ descricaoQuantidadeOrcamentos(cliente) }}</span>
+          </nz-list-item-action>
+          <nz-list-item-action>
+            <nz-tag *ngIf="ehSemOrcamentos(cliente.situacaoPredominante)">{{ idioma.CLIENTE.SEM_ORCAMENTOS }}</nz-tag>
+            <uatz-situacao-orcamento-tag
+              *ngIf="!ehSemOrcamentos(cliente.situacaoPredominante)"
+              [situacao]="cliente.situacaoPredominante"></uatz-situacao-orcamento-tag>
+          </nz-list-item-action>
+        </ul>
+      </nz-list-item>
+    </nz-list>
+  </nz-card>
+
+  <nz-card [nzTitle]="tituloDetalhe">
+    <ng-template #tituloDetalhe>
+      <p class="eyebrow">{{ idioma.CLIENTE.DETALHAMENTO }}</p>
+      <h2 class="cliente__titulo-painel">
+        {{ clienteSelecionado ? formatarTelefone(clienteSelecionado.phone) : idioma.APP.VAZIO }}
+      </h2>
+    </ng-template>
+
+    <nz-empty
+      *ngIf="!clienteSelecionado && !flagFalha"
+      [nzNotFoundContent]="idioma.CLIENTE.SELECIONE"></nz-empty>
+
+    <ng-container *ngIf="clienteSelecionado as cliente">
+      <nz-descriptions nzBordered nzSize="small" [nzColumn]="3">
+        <nz-descriptions-item [nzTitle]="idioma.CLIENTE.CIDADE">
+          {{ descricaoCidade(cliente.city) }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="idioma.CLIENTE.ESTADO">
+          {{ descricaoEstado(cliente.state) }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="idioma.CLIENTE.DETALHAMENTO">
+          {{ descricaoQuantidadeOrcamentos(cliente) }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <nz-empty
+        *ngIf="cliente.orcamentos.length === 0"
+        [nzNotFoundContent]="idioma.CLIENTE.CLIENTE_SEM_ORCAMENTOS"
+        class="uatz-espaco-topo"></nz-empty>
+
+      <nz-list *ngIf="cliente.orcamentos.length > 0" nzSize="small" class="uatz-espaco-topo">
+        <nz-list-item *ngFor="let orcamento of cliente.orcamentos">
+          <nz-list-item-meta [nzTitle]="tituloOrcamento" [nzDescription]="descricaoOrcamento">
+            <ng-template #tituloOrcamento>
+              <a [routerLink]="['/orcamentos', orcamento.id]">#{{ orcamento.id }}</a>
+            </ng-template>
+            <ng-template #descricaoOrcamento>
+              <span>{{ descricaoCidade(orcamento.city) }} • {{ descricaoQuantidadeItens(orcamento) }}</span>
+            </ng-template>
+          </nz-list-item-meta>
+
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <uatz-situacao-orcamento-tag [situacao]="orcamento.status"></uatz-situacao-orcamento-tag>
+            </nz-list-item-action>
+            <nz-list-item-action>
+              <span class="uatz-texto-apoio">{{ formatarDataHora(orcamento.createdAt) }}</span>
+            </nz-list-item-action>
+          </ul>
+        </nz-list-item>
+      </nz-list>
+    </ng-container>
+  </nz-card>
+</div>

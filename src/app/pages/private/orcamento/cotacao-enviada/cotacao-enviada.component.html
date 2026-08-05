@@ -1,0 +1,77 @@
+<nz-alert
+  *ngIf="mensagemErro"
+  nzType="error"
+  [nzMessage]="mensagemErro"
+  nzShowIcon
+  class="cotacao-enviada__alerta"></nz-alert>
+
+<ng-container *ngIf="cotacao as cotacao">
+  <uatz-pagina-cabecalho
+    [eyebrow]="idioma.COTACAO_ENVIADA.EYEBROW"
+    [titulo]="titulo"
+    [subtitulo]="subtitulo">
+    <a nz-button nzType="default" [routerLink]="['/orcamentos', cotacao.requestId]">
+      <span nz-icon nzType="arrow-left"></span>
+      {{ idioma.COTACAO_ENVIADA.VOLTAR }}
+    </a>
+  </uatz-pagina-cabecalho>
+
+  <div nz-row [nzGutter]="[16, 16]">
+    <div nz-col nzXs="24" nzSm="8">
+      <nz-card>
+        <nz-statistic
+          [nzValue]="formatarValor(cotacao.totalPrice)"
+          [nzTitle]="idioma.COTACAO_ENVIADA.TOTAL_ENVIADO"></nz-statistic>
+      </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="8">
+      <nz-card>
+        <nz-statistic
+          [nzValue]="formatarDataHora(cotacao.requestCreatedAt)"
+          [nzTitle]="idioma.COTACAO_ENVIADA.DATA_ORCAMENTO"></nz-statistic>
+      </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="8">
+      <nz-card>
+        <nz-statistic
+          [nzValue]="formatarDataHora(cotacao.createdAt)"
+          [nzTitle]="idioma.COTACAO_ENVIADA.DATA_RESPOSTA"></nz-statistic>
+      </nz-card>
+    </div>
+  </div>
+
+  <nz-card class="uatz-espaco-topo">
+    <div class="cotacao-enviada__cabecalho-painel">
+      <p class="eyebrow">{{ idioma.COTACAO_ENVIADA.ITENS_COTADOS }}</p>
+      <h2>{{ idioma.COTACAO_ENVIADA.COMPOSICAO }}</h2>
+    </div>
+
+    <nz-table #tabelaItens [nzData]="cotacao.items" [nzShowPagination]="false" nzSize="middle">
+      <thead>
+        <tr>
+          <th>{{ idioma.DETALHE_ORCAMENTO.DESCRICAO_ITEM }}</th>
+          <th nzWidth="160px">{{ idioma.DETALHE_ORCAMENTO.QUANTIDADE }}</th>
+          <th nzWidth="150px">{{ idioma.COTACAO_ENVIADA.UNITARIO }}</th>
+          <th nzWidth="150px">{{ idioma.DETALHE_ORCAMENTO.TOTAL_ORCAMENTO }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of tabelaItens.data">
+          <td>{{ item.productName }}</td>
+          <td>{{ item.quantity }} {{ descricaoUnidade(item) }}</td>
+          <td>{{ formatarValor(item.unitPrice) }}</td>
+          <td><strong>{{ formatarValor(item.lineTotal) }}</strong></td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+
+  <nz-card *ngIf="cotacao.message" class="uatz-espaco-topo">
+    <div class="cotacao-enviada__cabecalho-painel">
+      <p class="eyebrow">{{ idioma.COTACAO_ENVIADA.DESCRICAO }}</p>
+      <h2>{{ idioma.COTACAO_ENVIADA.OBSERVACOES }}</h2>
+    </div>
+
+    <p class="cotacao-enviada__mensagem">{{ cotacao.message }}</p>
+  </nz-card>
+</ng-container>

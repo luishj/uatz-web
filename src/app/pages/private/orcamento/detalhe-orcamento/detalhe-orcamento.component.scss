@@ -1,0 +1,93 @@
+.detalhe-orcamento {
+  &__alerta {
+    margin-bottom: 16px;
+  }
+
+  &__titulo-painel {
+    margin: 4px 0 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  &__mensagem-original {
+    margin-bottom: 16px;
+    white-space: pre-line;
+  }
+
+  &__item-revisao {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--uatz-border);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  &__item-acao {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 24px;
+  }
+
+  &__acoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  &__ajuda {
+    margin: 12px 0 16px;
+  }
+
+  &__melhor-oferta {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(27, 187, 241, 0.08);
+
+    h3 {
+      margin: 4px 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.3rem;
+      color: var(--uatz-brand-main);
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__acoes-fornecedor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  &__item-cotacao {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--uatz-border);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__item-cotacao-preco {
+    margin-bottom: 0;
+    min-width: 160px;
+  }
+}

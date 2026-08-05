@@ -1,0 +1,69 @@
+<uatz-pagina-cabecalho
+  [eyebrow]="idioma.SIMULACAO_WHATSAPP.EYEBROW"
+  [titulo]="idioma.SIMULACAO_WHATSAPP.TITULO"
+  [subtitulo]="idioma.SIMULACAO_WHATSAPP.SUBTITULO">
+  <a nz-button nzType="default" routerLink="/orcamentos">
+    <span nz-icon nzType="arrow-left"></span>
+    {{ idioma.SIMULACAO_WHATSAPP.VOLTAR }}
+  </a>
+</uatz-pagina-cabecalho>
+
+<nz-card>
+  <form nz-form [formGroup]="form" (ngSubmit)="simular()" nzLayout="vertical">
+    <div nz-row [nzGutter]="16">
+      <div nz-col nzXs="24" nzSm="8">
+        <nz-form-item>
+          <nz-form-label nzRequired nzFor="phone">{{ idioma.SIMULACAO_WHATSAPP.TELEFONE }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="erroTelefone">
+            <input nz-input id="phone" formControlName="phone" placeholder="11999999999" />
+          </nz-form-control>
+          <ng-template #erroTelefone let-control>
+            <ng-container *ngIf="control.hasError('required')">{{ idioma.FORM_VALIDATION.REQUIRED }}</ng-container>
+            <ng-container *ngIf="control.hasError('telefone')">{{ idioma.FORM_VALIDATION.INVALID }}</ng-container>
+          </ng-template>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzXs="24" nzSm="10">
+        <nz-form-item>
+          <nz-form-label nzFor="city">{{ idioma.SIMULACAO_WHATSAPP.CIDADE }}</nz-form-label>
+          <nz-form-control>
+            <input nz-input id="city" formControlName="city" placeholder="São Paulo" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div nz-col nzXs="24" nzSm="6">
+        <nz-form-item>
+          <nz-form-label nzFor="state">{{ idioma.SIMULACAO_WHATSAPP.ESTADO }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="idioma.FORM_VALIDATION.INVALID">
+            <input nz-input id="state" formControlName="state" placeholder="SP" maxlength="2" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="message">{{ idioma.SIMULACAO_WHATSAPP.MENSAGEM }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="idioma.FORM_VALIDATION.REQUIRED">
+        <textarea
+          nz-input
+          id="message"
+          rows="8"
+          formControlName="message"
+          [placeholder]="idioma.SIMULACAO_WHATSAPP.MENSAGEM_PLACEHOLDER"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-alert
+      nzType="info"
+      [nzMessage]="idioma.SIMULACAO_WHATSAPP.AJUDA_TITULO"
+      [nzDescription]="idioma.SIMULACAO_WHATSAPP.AJUDA_TEXTO"
+      nzShowIcon
+      class="simulacao-whatsapp__ajuda"></nz-alert>
+
+    <button nz-button nzType="primary" nzBlock nzSize="large" [nzLoading]="flagSalvando" type="submit">
+      {{ flagSalvando ? idioma.SIMULACAO_WHATSAPP.CRIANDO : idioma.SIMULACAO_WHATSAPP.CRIAR }}
+    </button>
+  </form>
+</nz-card>

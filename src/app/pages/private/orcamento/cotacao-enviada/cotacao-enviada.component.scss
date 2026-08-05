@@ -1,0 +1,21 @@
+.cotacao-enviada {
+  &__alerta {
+    margin-bottom: 16px;
+  }
+
+  &__cabecalho-painel {
+    margin-bottom: 16px;
+
+    h2 {
+      margin: 4px 0 0;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+  }
+
+  &__mensagem {
+    margin: 0;
+    white-space: pre-line;
+    color: var(--uatz-ink-muted);
+  }
+}

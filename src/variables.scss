@@ -1,0 +1,20 @@
+// Tokens visuais da marca UATZ, expostos como custom properties para poderem
+// ser usados tanto no SCSS dos componentes quanto em estilos do ng-zorro.
+:root {
+  --uatz-brand-main: #1bbbf1;
+  --uatz-brand-mid: #3eccf5;
+  --uatz-brand-bright: #62ddf8;
+  --uatz-brand-soft: #85eefc;
+  --uatz-brand-ice: #a8ffff;
+  --uatz-ink-strong: #062b3f;
+  --uatz-ink-muted: #4d7286;
+  --uatz-panel-bg: rgba(255, 255, 255, 0.78);
+  --uatz-border: rgba(27, 187, 241, 0.18);
+  --uatz-shadow-soft: 0 20px 55px rgba(8, 50, 66, 0.12);
+  --uatz-shadow-strong: 0 34px 80px rgba(7, 43, 58, 0.18);
+}
+
+$uatz-brand-main: #1bbbf1;
+$uatz-brand-bright: #62ddf8;
+$uatz-ink-strong: #062b3f;
+$uatz-ink-muted: #4d7286;

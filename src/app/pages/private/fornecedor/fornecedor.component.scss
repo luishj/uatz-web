@@ -1,0 +1,16 @@
+.fornecedor {
+  &__alerta {
+    margin-bottom: 16px;
+  }
+
+  &__titulo-painel {
+    margin: 4px 0 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  &__acoes {
+    display: flex;
+    gap: 8px;
+  }
+}

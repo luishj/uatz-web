@@ -1,0 +1,72 @@
+<main class="login">
+  <section class="login__hero">
+    <p class="eyebrow">{{ idioma.LOGIN.EYEBROW }}</p>
+    <h1>{{ idioma.LOGIN.TITULO }}</h1>
+    <p class="login__intro">{{ idioma.LOGIN.INTRO }}</p>
+
+    <div class="login__destaques">
+      <nz-card nzSize="small">
+        <span class="login__destaque-numero">01</span>
+        <h2>{{ idioma.LOGIN.DESTAQUE_1_TITULO }}</h2>
+        <p>{{ idioma.LOGIN.DESTAQUE_1_TEXTO }}</p>
+      </nz-card>
+      <nz-card nzSize="small">
+        <span class="login__destaque-numero">02</span>
+        <h2>{{ idioma.LOGIN.DESTAQUE_2_TITULO }}</h2>
+        <p>{{ idioma.LOGIN.DESTAQUE_2_TEXTO }}</p>
+      </nz-card>
+      <nz-card nzSize="small">
+        <span class="login__destaque-numero">03</span>
+        <h2>{{ idioma.LOGIN.DESTAQUE_3_TITULO }}</h2>
+        <p>{{ idioma.LOGIN.DESTAQUE_3_TEXTO }}</p>
+      </nz-card>
+    </div>
+  </section>
+
+  <section class="login__acesso">
+    <nz-card class="login__card">
+      <p class="eyebrow">{{ idioma.LOGIN.ACESSO }}</p>
+      <h2>{{ idioma.LOGIN.ENTRAR_PAINEL }}</h2>
+      <p class="uatz-texto-apoio">{{ idioma.LOGIN.AJUDA }}</p>
+
+      <form nz-form [formGroup]="form" (ngSubmit)="entrar()" nzLayout="vertical">
+        <nz-form-item>
+          <nz-form-label nzFor="email">{{ idioma.LOGIN.EMAIL }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="erroEmail">
+            <nz-input-group nzPrefixIcon="mail">
+              <input nz-input id="email" type="email" formControlName="email" placeholder="admin@uatz.com" />
+            </nz-input-group>
+          </nz-form-control>
+          <ng-template #erroEmail let-control>
+            <ng-container *ngIf="control.hasError('required')">{{ idioma.FORM_VALIDATION.REQUIRED }}</ng-container>
+            <ng-container *ngIf="control.hasError('email')">{{ idioma.FORM_VALIDATION.EMAIL }}</ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label nzFor="password">{{ idioma.LOGIN.SENHA }}</nz-form-label>
+          <nz-form-control [nzErrorTip]="erroSenha">
+            <nz-input-group nzPrefixIcon="lock">
+              <input nz-input id="password" type="password" formControlName="password" placeholder="******" />
+            </nz-input-group>
+          </nz-form-control>
+          <ng-template #erroSenha let-control>
+            <ng-container *ngIf="control.hasError('required')">{{ idioma.FORM_VALIDATION.REQUIRED }}</ng-container>
+            <ng-container *ngIf="control.hasError('minlength')">{{ idioma.FORM_VALIDATION.MINLENGTH }} 6</ng-container>
+          </ng-template>
+        </nz-form-item>
+
+        <nz-alert
+          *ngIf="mensagemErro"
+          nzType="error"
+          [nzMessage]="mensagemErro"
+          nzShowIcon
+          class="login__alerta"></nz-alert>
+
+        <button nz-button nzType="primary" nzBlock nzSize="large" [nzLoading]="flagAutenticando" type="submit">
+          {{ flagAutenticando ? idioma.LOGIN.AUTENTICANDO : idioma.LOGIN.ENTRAR }}
+        </button>
+      </form>
+    </nz-card>
+  </section>
+</main>

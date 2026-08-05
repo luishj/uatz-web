@@ -1,0 +1,380 @@
+<nz-alert
+  *ngIf="mensagemErro"
+  nzType="error"
+  [nzMessage]="mensagemErro"
+  nzShowIcon
+  class="detalhe-orcamento__alerta"></nz-alert>
+
+<ng-container *ngIf="orcamento as orcamento">
+  <uatz-pagina-cabecalho
+    [eyebrow]="idioma.DETALHE_ORCAMENTO.EYEBROW"
+    [titulo]="titulo"
+    [subtitulo]="subtitulo">
+    <uatz-situacao-orcamento-tag [situacao]="orcamento.status"></uatz-situacao-orcamento-tag>
+  </uatz-pagina-cabecalho>
+
+  <div nz-row [nzGutter]="[16, 16]">
+    <div nz-col nzXs="24" nzSm="8">
+      <nz-card>
+        <nz-statistic [nzValue]="orcamento.items.length" [nzTitle]="idioma.DETALHE_ORCAMENTO.ITENS"></nz-statistic>
+      </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="8">
+      <nz-card>
+        <nz-statistic [nzValue]="resumo?.totalQuotes ?? 0" [nzTitle]="idioma.DETALHE_ORCAMENTO.COTACOES"></nz-statistic>
+      </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="8">
+      <nz-card>
+        <nz-statistic
+          [nzValue]="formatarDataHora(orcamento.createdAt)"
+          [nzTitle]="idioma.DETALHE_ORCAMENTO.CRIADO_EM"></nz-statistic>
+      </nz-card>
+    </div>
+  </div>
+
+  <div class="uatz-grid-2 uatz-espaco-topo">
+    <!-- Triagem / revisao do pedido -->
+    <nz-card *ngIf="flagAdminOuOperador" [nzTitle]="tituloRevisao">
+      <ng-template #tituloRevisao>
+        <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.TRIAGEM }}</p>
+        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.REVISAO }}</h2>
+      </ng-template>
+
+      <nz-alert
+        *ngIf="orcamento.sourceMessage"
+        nzType="info"
+        [nzMessage]="idioma.DETALHE_ORCAMENTO.MENSAGEM_ORIGINAL"
+        [nzDescription]="orcamento.sourceMessage"
+        class="detalhe-orcamento__mensagem-original"></nz-alert>
+
+      <form nz-form [formGroup]="formRevisao" (ngSubmit)="salvarRevisao()" nzLayout="vertical">
+        <nz-form-item>
+          <nz-form-label nzFor="city">{{ idioma.DETALHE_ORCAMENTO.CIDADE }}</nz-form-label>
+          <nz-form-control>
+            <input nz-input id="city" formControlName="city" [placeholder]="idioma.DETALHE_ORCAMENTO.CIDADE_PLACEHOLDER" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <div formArrayName="items">
+          <div
+            *ngFor="let itemControl of itensRevisao.controls; let indice = index"
+            [formGroupName]="indice"
+            class="detalhe-orcamento__item-revisao">
+            <div nz-row [nzGutter]="8">
+              <div nz-col nzXs="24" nzSm="11">
+                <nz-form-item>
+                  <nz-form-label>{{ idioma.DETALHE_ORCAMENTO.DESCRICAO_ITEM }}</nz-form-label>
+                  <nz-form-control [nzErrorTip]="idioma.FORM_VALIDATION.REQUIRED">
+                    <input
+                      nz-input
+                      formControlName="productName"
+                      [placeholder]="idioma.DETALHE_ORCAMENTO.DESCRICAO_ITEM_PLACEHOLDER" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="12" nzSm="5">
+                <nz-form-item>
+                  <nz-form-label>{{ idioma.DETALHE_ORCAMENTO.QUANTIDADE }}</nz-form-label>
+                  <nz-form-control [nzErrorTip]="idioma.FORM_VALIDATION.INVALID">
+                    <nz-input-number formControlName="quantity" [nzMin]="0.01" [nzStep]="0.01"></nz-input-number>
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="12" nzSm="5">
+                <nz-form-item>
+                  <nz-form-label>{{ idioma.DETALHE_ORCAMENTO.UNIDADE }}</nz-form-label>
+                  <nz-form-control>
+                    <input nz-input formControlName="unit" [placeholder]="idioma.DETALHE_ORCAMENTO.UNIDADE_PLACEHOLDER" />
+                  </nz-form-control>
+                </nz-form-item>
+              </div>
+              <div nz-col nzXs="24" nzSm="3" class="detalhe-orcamento__item-acao">
+                <button
+                  nz-button
+                  nzType="text"
+                  nzDanger
+                  type="button"
+                  [disabled]="itensRevisao.length <= 1"
+                  (click)="removerItemRevisao(indice)">
+                  <span nz-icon nzType="delete"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detalhe-orcamento__acoes">
+          <button nz-button nzType="default" type="button" (click)="adicionarItemRevisao()">
+            <span nz-icon nzType="plus"></span>
+            {{ idioma.DETALHE_ORCAMENTO.ADICIONAR_ITEM }}
+          </button>
+          <button nz-button nzType="primary" type="submit" [nzLoading]="flagSalvandoRevisao">
+            {{ flagSalvandoRevisao ? idioma.DETALHE_ORCAMENTO.SALVANDO_REVISAO : idioma.DETALHE_ORCAMENTO.SALVAR_REVISAO }}
+          </button>
+        </div>
+      </form>
+    </nz-card>
+
+    <!-- Composicao do pedido -->
+    <nz-card [nzTitle]="tituloItens">
+      <ng-template #tituloItens>
+        <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.ITENS }}</p>
+        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COMPOSICAO }}</h2>
+      </ng-template>
+
+      <nz-list nzSize="small">
+        <nz-list-item *ngFor="let item of orcamento.items">
+          <nz-list-item-meta [nzTitle]="item.productName" [nzDescription]="descricaoUnidade(item)"></nz-list-item-meta>
+          <ul nz-list-item-actions>
+            <nz-list-item-action><strong>{{ item.quantity }}</strong></nz-list-item-action>
+          </ul>
+        </nz-list-item>
+      </nz-list>
+    </nz-card>
+
+    <!-- Comparativo de cotacoes -->
+    <nz-card *ngIf="flagAdminOuOperador && resumo as resumo" [nzTitle]="tituloResumo">
+      <ng-template #tituloResumo>
+        <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.RESUMO }}</p>
+        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COMPARATIVO }}</h2>
+      </ng-template>
+
+      <nz-descriptions nzBordered nzSize="small" [nzColumn]="3">
+        <nz-descriptions-item [nzTitle]="idioma.DETALHE_ORCAMENTO.MENOR_VALOR">
+          {{ formatarValor(resumo.lowestPrice) }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="idioma.DETALHE_ORCAMENTO.MEDIA">
+          {{ formatarValor(resumo.averagePrice) }}
+        </nz-descriptions-item>
+        <nz-descriptions-item [nzTitle]="idioma.DETALHE_ORCAMENTO.MAIOR_VALOR">
+          {{ formatarValor(resumo.highestPrice) }}
+        </nz-descriptions-item>
+      </nz-descriptions>
+
+      <div *ngIf="resumo.bestQuote as melhorCotacao; else semCotacoes" class="detalhe-orcamento__melhor-oferta">
+        <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.MELHOR_OFERTA }}</p>
+        <h3>{{ melhorCotacao.vendorName }}</h3>
+        <strong>{{ formatarValor(melhorCotacao.totalPrice) }}</strong>
+        <p class="uatz-texto-apoio">{{ melhorCotacao.message || idioma.APP.SEM_OBSERVACAO }}</p>
+      </div>
+      <ng-template #semCotacoes>
+        <nz-empty
+          [nzNotFoundContent]="idioma.DETALHE_ORCAMENTO.SEM_COTACOES"
+          class="uatz-espaco-topo"></nz-empty>
+      </ng-template>
+    </nz-card>
+
+    <!-- Distribuicao -->
+    <nz-card *ngIf="flagAdminOuOperador" [nzTitle]="tituloDistribuicao">
+      <ng-template #tituloDistribuicao>
+        <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.DISTRIBUICAO }}</p>
+        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.ENVIO_FORNECEDORES }}</h2>
+      </ng-template>
+
+      <button nz-button nzType="primary" [nzLoading]="flagDistribuindo" (click)="distribuir()">
+        <span nz-icon nzType="send"></span>
+        {{ flagDistribuindo ? idioma.DETALHE_ORCAMENTO.DISTRIBUINDO : idioma.DETALHE_ORCAMENTO.DISTRIBUIR }}
+      </button>
+      <p class="uatz-texto-apoio detalhe-orcamento__ajuda">{{ idioma.DETALHE_ORCAMENTO.DISTRIBUICAO_AJUDA }}</p>
+
+      <nz-empty
+        *ngIf="fornecedoresVinculados.length === 0"
+        [nzNotFoundContent]="idioma.DETALHE_ORCAMENTO.SEM_FORNECEDORES"></nz-empty>
+
+      <nz-list *ngIf="fornecedoresVinculados.length > 0" nzSize="small">
+        <nz-list-item *ngFor="let atribuicao of fornecedoresVinculados">
+          <nz-list-item-meta [nzTitle]="atribuicao.vendorName" [nzDescription]="descricaoAtribuicao">
+            <ng-template #descricaoAtribuicao>
+              <span>{{ atribuicao.vendorEmail || idioma.APP.EMAIL_NAO_INFORMADO }}</span>
+              <br />
+              <small>{{ descricaoDataAtribuicao(idioma.DETALHE_ORCAMENTO.ENVIADO_EM, atribuicao.sentAt) }}</small>
+              <br *ngIf="atribuicao.viewedAt" />
+              <small *ngIf="atribuicao.viewedAt">
+                {{ descricaoDataAtribuicao(idioma.DETALHE_ORCAMENTO.VISUALIZADO_EM, atribuicao.viewedAt) }}
+              </small>
+              <br *ngIf="atribuicao.respondedAt" />
+              <small *ngIf="atribuicao.respondedAt">
+                {{ descricaoDataAtribuicao(idioma.DETALHE_ORCAMENTO.RESPONDEU_EM, atribuicao.respondedAt) }}
+              </small>
+              <br *ngIf="atribuicao.declinedAt" />
+              <small *ngIf="atribuicao.declinedAt">
+                {{ descricaoDataAtribuicao(idioma.DETALHE_ORCAMENTO.RECUSOU_EM, atribuicao.declinedAt) }}
+              </small>
+            </ng-template>
+          </nz-list-item-meta>
+          <ul nz-list-item-actions>
+            <nz-list-item-action>
+              <uatz-situacao-fornecedor-tag [situacao]="atribuicao.status"></uatz-situacao-fornecedor-tag>
+            </nz-list-item-action>
+          </ul>
+        </nz-list-item>
+      </nz-list>
+    </nz-card>
+
+    <!-- Nova cotacao (fornecedor) -->
+    <nz-card [nzTitle]="tituloCotacao">
+      <ng-template #tituloCotacao>
+        <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.NOVA_COTACAO }}</p>
+        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.REGISTRAR_RESPOSTA }}</h2>
+      </ng-template>
+
+      <nz-empty
+        *ngIf="!flagFornecedor"
+        [nzNotFoundContent]="idioma.DETALHE_ORCAMENTO.SOMENTE_FORNECEDOR"></nz-empty>
+
+      <nz-alert
+        *ngIf="flagFornecedor && !fornecedorAtual"
+        nzType="error"
+        [nzMessage]="idioma.DETALHE_ORCAMENTO.FORNECEDOR_NAO_VINCULADO"
+        nzShowIcon></nz-alert>
+
+      <ng-container *ngIf="flagFornecedor && fornecedorAtual as fornecedor">
+        <nz-descriptions nzBordered nzSize="small" [nzColumn]="1">
+          <nz-descriptions-item [nzTitle]="idioma.DETALHE_ORCAMENTO.FORNECEDOR_LOGADO">
+            <strong>{{ fornecedor.name }}</strong>
+            <br />
+            <span class="uatz-texto-apoio">{{ fornecedor.email || fornecedor.phone }}</span>
+          </nz-descriptions-item>
+        </nz-descriptions>
+
+        <div class="detalhe-orcamento__acoes-fornecedor">
+          <uatz-situacao-fornecedor-tag
+            *ngIf="minhaAtribuicao"
+            [situacao]="minhaAtribuicao.status"></uatz-situacao-fornecedor-tag>
+
+          <button
+            *ngIf="!flagFornecedorRespondeu"
+            nz-button
+            nzType="default"
+            nzDanger
+            type="button"
+            [disabled]="flagRecusando || !flagFornecedorPodeCotar"
+            nz-popconfirm
+            [nzPopconfirmTitle]="idioma.DETALHE_ORCAMENTO.RECUSAR"
+            (nzOnConfirm)="recusar()">
+            {{ flagRecusando ? idioma.DETALHE_ORCAMENTO.RECUSANDO : idioma.DETALHE_ORCAMENTO.RECUSAR }}
+          </button>
+        </div>
+
+        <nz-alert
+          *ngIf="flagFornecedorRespondeu"
+          nzType="success"
+          [nzMessage]="idioma.DETALHE_ORCAMENTO.RESPOSTA_REGISTRADA"
+          [nzDescription]="respostaEnviada"
+          nzShowIcon
+          class="uatz-espaco-topo"></nz-alert>
+        <ng-template #respostaEnviada>
+          <p>{{ descricaoRespostaFinalizada() }}</p>
+          <button nz-button nzType="primary" nzSize="small" (click)="verCotacaoEnviada()">
+            {{ idioma.DETALHE_ORCAMENTO.VER_ORCAMENTO_ENVIADO }}
+          </button>
+        </ng-template>
+
+        <nz-alert
+          *ngIf="flagFornecedorRecusou"
+          nzType="warning"
+          [nzMessage]="idioma.DETALHE_ORCAMENTO.JA_RECUSADO"
+          nzShowIcon
+          class="uatz-espaco-topo"></nz-alert>
+
+        <form
+          *ngIf="flagFornecedorPodeCotar"
+          nz-form
+          [formGroup]="formCotacao"
+          (ngSubmit)="salvarCotacao()"
+          nzLayout="vertical"
+          class="uatz-espaco-topo">
+          <div formArrayName="items">
+            <div
+              *ngFor="let itemControl of itensCotacao.controls; let indice = index"
+              [formGroupName]="indice"
+              class="detalhe-orcamento__item-cotacao">
+              <div class="detalhe-orcamento__item-cotacao-descricao">
+                <strong>{{ itemControl.get('productName')?.value }}</strong>
+                <p class="uatz-texto-apoio">
+                  {{ itemControl.get('quantity')?.value }} {{ itemControl.get('unit')?.value || idioma.APP.UNIDADES }}
+                </p>
+              </div>
+
+              <nz-form-item class="detalhe-orcamento__item-cotacao-preco">
+                <nz-form-label>{{ idioma.DETALHE_ORCAMENTO.VALOR_UNITARIO }}</nz-form-label>
+                <nz-form-control [nzErrorTip]="idioma.FORM_VALIDATION.REQUIRED">
+                  <nz-input-number
+                    formControlName="unitPrice"
+                    [nzMin]="0"
+                    [nzStep]="0.01"
+                    [nzPrecision]="2"></nz-input-number>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <nz-descriptions nzBordered nzSize="small" [nzColumn]="1">
+            <nz-descriptions-item [nzTitle]="idioma.DETALHE_ORCAMENTO.TOTAL_ORCAMENTO">
+              <strong>{{ formatarValor(totalCotacao) }}</strong>
+            </nz-descriptions-item>
+          </nz-descriptions>
+
+          <nz-form-item class="uatz-espaco-topo">
+            <nz-form-label nzFor="message">{{ idioma.DETALHE_ORCAMENTO.DESCRICAO_RESPOSTA }}</nz-form-label>
+            <nz-form-control>
+              <textarea
+                nz-input
+                id="message"
+                rows="4"
+                formControlName="message"
+                [placeholder]="idioma.DETALHE_ORCAMENTO.DESCRICAO_RESPOSTA_PLACEHOLDER"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+
+          <button
+            nz-button
+            nzType="primary"
+            nzBlock
+            type="submit"
+            [nzLoading]="flagSalvandoCotacao"
+            [disabled]="totalCotacao <= 0">
+            {{ flagSalvandoCotacao ? idioma.DETALHE_ORCAMENTO.SALVANDO : idioma.DETALHE_ORCAMENTO.REGISTRAR_COTACAO }}
+          </button>
+        </form>
+      </ng-container>
+    </nz-card>
+  </div>
+
+  <!-- Historico de cotacoes -->
+  <nz-card *ngIf="flagAdminOuOperador && resumo as resumo" class="uatz-espaco-topo" [nzTitle]="tituloHistorico">
+    <ng-template #tituloHistorico>
+      <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.HISTORICO }}</p>
+      <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COTACOES_RECEBIDAS }}</h2>
+    </ng-template>
+
+    <nz-empty
+      *ngIf="resumo.quotes.length === 0"
+      [nzNotFoundContent]="idioma.DETALHE_ORCAMENTO.SEM_COTACOES_REGISTRADAS"></nz-empty>
+
+    <nz-table
+      *ngIf="resumo.quotes.length > 0"
+      #tabelaCotacoes
+      [nzData]="resumo.quotes"
+      [nzShowPagination]="false"
+      nzSize="middle">
+      <thead>
+        <tr>
+          <th>{{ idioma.FORNECEDOR.NOME }}</th>
+          <th>{{ idioma.DETALHE_ORCAMENTO.DESCRICAO_RESPOSTA }}</th>
+          <th nzWidth="150px">{{ idioma.DETALHE_ORCAMENTO.TOTAL_ORCAMENTO }}</th>
+          <th nzWidth="170px">{{ idioma.COTACAO_ENVIADA.DATA_RESPOSTA }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cotacao of tabelaCotacoes.data">
+          <td><strong>{{ cotacao.vendorName }}</strong></td>
+          <td class="uatz-texto-apoio">{{ cotacao.message || idioma.APP.SEM_OBSERVACAO }}</td>
+          <td><strong>{{ formatarValor(cotacao.totalPrice) }}</strong></td>
+          <td>{{ formatarDataHora(cotacao.createdAt) }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</ng-container>

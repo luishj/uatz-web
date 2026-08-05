@@ -1,0 +1,76 @@
+.uatz-shell {
+  min-height: 100vh;
+
+  &__sider {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0;
+    background: var(--uatz-panel-bg);
+    border-right: 1px solid var(--uatz-border);
+    box-shadow: var(--uatz-shadow-soft);
+
+    ::ng-deep .ant-menu {
+      background: transparent;
+      border-inline-end: 0;
+    }
+  }
+
+  &__marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px 24px;
+  }
+
+  &__marca-icone {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(140deg, var(--uatz-brand-main), var(--uatz-brand-bright));
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  &__marca-titulo {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+  }
+
+  &__marca-subtitulo {
+    margin: 0;
+    color: var(--uatz-ink-muted);
+    font-size: 0.78rem;
+  }
+
+  &__sessao {
+    margin-top: auto;
+    padding: 24px 24px 0;
+
+    strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.95rem;
+    }
+  }
+
+  &__sessao-email {
+    margin: 0 0 8px;
+    color: var(--uatz-ink-muted);
+    font-size: 0.8rem;
+    word-break: break-all;
+  }
+
+  &__logout {
+    margin-top: 16px;
+  }
+
+  &__conteudo {
+    padding: 32px 40px 48px;
+    overflow-x: hidden;
+  }
+}

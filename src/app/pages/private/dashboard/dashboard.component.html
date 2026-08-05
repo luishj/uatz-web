@@ -1,0 +1,58 @@
+<uatz-pagina-cabecalho
+  [eyebrow]="idioma.DASHBOARD.EYEBROW"
+  [titulo]="idioma.DASHBOARD.TITULO">
+  <a nz-button nzType="primary" routerLink="/orcamentos">
+    <span nz-icon nzType="arrow-right"></span>
+    {{ idioma.DASHBOARD.ABRIR_FILA }}
+  </a>
+</uatz-pagina-cabecalho>
+
+<div nz-row [nzGutter]="[16, 16]">
+  <div nz-col nzXs="24" nzSm="8">
+    <nz-card>
+      <nz-statistic [nzValue]="totalOrcamentos" [nzTitle]="idioma.DASHBOARD.TOTAL_ORCAMENTOS"></nz-statistic>
+    </nz-card>
+  </div>
+  <div nz-col nzXs="24" nzSm="8">
+    <nz-card>
+      <nz-statistic [nzValue]="totalAbertos" [nzTitle]="idioma.DASHBOARD.ABERTOS"></nz-statistic>
+    </nz-card>
+  </div>
+  <div nz-col nzXs="24" nzSm="8">
+    <nz-card>
+      <nz-statistic [nzValue]="totalAguardandoCotacao" [nzTitle]="idioma.DASHBOARD.AGUARDANDO_COTACAO"></nz-statistic>
+    </nz-card>
+  </div>
+</div>
+
+<nz-card class="uatz-espaco-topo">
+  <div class="dashboard__cabecalho-painel">
+    <p class="eyebrow">{{ idioma.DASHBOARD.FILA_RECENTE }}</p>
+    <h2>{{ idioma.DASHBOARD.ULTIMOS_ORCAMENTOS }}</h2>
+  </div>
+
+  <nz-empty
+    *ngIf="!flagCarregando && ultimosOrcamentos.length === 0"
+    [nzNotFoundContent]="idioma.DASHBOARD.SEM_ORCAMENTOS"></nz-empty>
+
+  <nz-list *ngIf="ultimosOrcamentos.length > 0" [nzItemLayout]="'horizontal'">
+    <nz-list-item *ngFor="let orcamento of ultimosOrcamentos">
+      <nz-list-item-meta
+        [nzTitle]="tituloOrcamento"
+        [nzDescription]="descricaoClienteCidade(orcamento)">
+        <ng-template #tituloOrcamento>
+          <a [routerLink]="['/orcamentos', orcamento.id]">{{ descricaoOrcamento(orcamento) }}</a>
+        </ng-template>
+      </nz-list-item-meta>
+
+      <ul nz-list-item-actions>
+        <nz-list-item-action>
+          <uatz-situacao-orcamento-tag [situacao]="orcamento.status"></uatz-situacao-orcamento-tag>
+        </nz-list-item-action>
+        <nz-list-item-action>
+          <span class="uatz-texto-apoio">{{ formatarDataHora(orcamento.createdAt) }}</span>
+        </nz-list-item-action>
+      </ul>
+    </nz-list-item>
+  </nz-list>
+</nz-card>

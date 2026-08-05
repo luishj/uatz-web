@@ -1,0 +1,67 @@
+@use 'variables';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--uatz-ink-strong);
+  background:
+    radial-gradient(circle at top left, rgba(27, 187, 241, 0.22), transparent 28%),
+    radial-gradient(circle at 80% 12%, rgba(168, 255, 255, 0.65), transparent 20%),
+    radial-gradient(circle at bottom right, rgba(98, 221, 248, 0.26), transparent 28%),
+    linear-gradient(160deg, #edfafd 0%, #d6f7ff 50%, #f9ffff 100%);
+}
+
+// Ant Design aplica o proprio fundo no layout; deixamos transparente para o
+// gradiente da marca aparecer.
+.ant-layout,
+.ant-layout-content {
+  background: transparent;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--uatz-ink-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+// Painel padrao das telas (usado com nz-card ou section simples).
+.uatz-painel {
+  padding: 24px;
+  border: 1px solid var(--uatz-border);
+  border-radius: 16px;
+  background: var(--uatz-panel-bg);
+  box-shadow: var(--uatz-shadow-soft);
+}
+
+.uatz-grid-2 {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+}
+
+.uatz-grid-3 {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.uatz-texto-apoio {
+  color: var(--uatz-ink-muted);
+}
+
+.uatz-espaco-topo {
+  margin-top: 24px;
+}
