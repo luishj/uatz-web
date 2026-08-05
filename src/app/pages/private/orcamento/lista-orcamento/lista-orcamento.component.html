@@ -3,17 +3,11 @@
   [titulo]="idioma.ORCAMENTO.TITULO"
   [subtitulo]="idioma.ORCAMENTO.SUBTITULO">
   <div class="lista-orcamento__resumo">
-    <span class="uatz-texto-apoio">{{ descricaoTotal }}</span>
-    <strong>{{ descricaoTotalItens }}</strong>
+    <strong>{{ descricaoTotal }}</strong>
+    <span>·</span>
+    <span>{{ descricaoTotalItens }}</span>
   </div>
 </uatz-pagina-cabecalho>
-
-<nz-alert
-  *ngIf="flagFalha"
-  nzType="error"
-  [nzMessage]="idioma.ORCAMENTO.FALHA_CARREGAR_LISTA"
-  nzShowIcon
-  class="lista-orcamento__alerta"></nz-alert>
 
 <nz-card>
   <nz-table
@@ -24,31 +18,32 @@
     nzSize="middle">
     <thead>
       <tr>
-        <th nzWidth="110px">{{ idioma.ORCAMENTO.COLUNA_CODIGO }}</th>
+        <th nzWidth="100px">{{ idioma.ORCAMENTO.COLUNA_CODIGO }}</th>
         <th>{{ idioma.ORCAMENTO.COLUNA_CLIENTE }}</th>
         <th>{{ idioma.ORCAMENTO.COLUNA_CIDADE }}</th>
-        <th nzWidth="90px">{{ idioma.ORCAMENTO.COLUNA_ITENS }}</th>
-        <th nzWidth="220px">{{ idioma.ORCAMENTO.COLUNA_SITUACAO }}</th>
-        <th nzWidth="170px">{{ idioma.ORCAMENTO.COLUNA_CRIADO_EM }}</th>
+        <th nzWidth="80px" nzAlign="right">{{ idioma.ORCAMENTO.COLUNA_ITENS }}</th>
+        <th nzWidth="210px">{{ idioma.ORCAMENTO.COLUNA_SITUACAO }}</th>
+        <th nzWidth="160px">{{ idioma.ORCAMENTO.COLUNA_CRIADO_EM }}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let orcamento of tabelaOrcamentos.data">
         <td>
-          <a [routerLink]="['/orcamentos', orcamento.id]">#{{ orcamento.id }}</a>
+          <a class="lista-orcamento__codigo" [routerLink]="['/orcamentos', orcamento.id]">#{{ orcamento.id }}</a>
         </td>
         <td>{{ orcamento.clientPhone || orcamento.clientId }}</td>
         <td>{{ descricaoCidade(orcamento) }}</td>
-        <td>{{ orcamento.items.length }}</td>
+        <td nzAlign="right" class="lista-orcamento__numero">{{ orcamento.items.length }}</td>
         <td>
           <uatz-situacao-orcamento-tag [situacao]="orcamento.status"></uatz-situacao-orcamento-tag>
         </td>
-        <td>{{ formatarDataHora(orcamento.createdAt) }}</td>
+        <td class="uatz-texto-apoio">{{ formatarDataHora(orcamento.createdAt) }}</td>
       </tr>
     </tbody>
   </nz-table>
 
   <ng-template #semOrcamentos>
-    <nz-empty [nzNotFoundContent]="idioma.ORCAMENTO.SEM_ORCAMENTOS"></nz-empty>
+    <nz-empty
+      [nzNotFoundContent]="flagFalha ? idioma.ORCAMENTO.FALHA_CARREGAR_LISTA : idioma.ORCAMENTO.SEM_ORCAMENTOS"></nz-empty>
   </ng-template>
 </nz-card>

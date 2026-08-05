@@ -1,26 +1,30 @@
 .cliente {
-  &__alerta {
-    margin-bottom: 16px;
+  &__cabecalho-painel {
+    margin-bottom: 4px;
   }
 
-  &__titulo-painel {
-    margin: 4px 0 0;
-    font-size: 1.15rem;
-    font-weight: 700;
-  }
-
+  // Linha selecionável da lista de clientes.
   &__item {
     cursor: pointer;
-    padding-inline: 8px;
-    border-radius: 10px;
-    transition: background 0.2s ease;
+    margin-inline: -12px;
+    padding-inline: 12px;
+    border-radius: var(--uatz-radius);
+    transition: background 0.15s ease;
 
     &:hover {
-      background: rgba(27, 187, 241, 0.06);
+      background: var(--uatz-surface-muted);
     }
 
     &--selecionado {
-      background: rgba(27, 187, 241, 0.12);
+      background: var(--uatz-accent-soft);
+
+      &:hover {
+        background: var(--uatz-accent-soft-hover);
+      }
     }
+  }
+
+  &__telefone {
+    font-variant-numeric: tabular-nums;
   }
 }

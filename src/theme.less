@@ -1,0 +1,123 @@
+// Tema do ng-zorro-antd.
+//
+// As variáveis são sobrescritas DEPOIS do import: o LESS avalia variável de
+// forma lazy, então a última declaração é a que vale.
+//
+// Os valores espelham os tokens de `variables.scss` — mudou aqui, mude lá.
+@import '../node_modules/ng-zorro-antd/ng-zorro-antd.less';
+
+// Marca / ação
+@primary-color: #015f75;
+@link-color: #015f75;
+@link-hover-color: #01758f;
+@link-active-color: #014a5c;
+@success-color: #15803d;
+@warning-color: #b45309;
+@error-color: #b42318;
+@info-color: #015f75;
+
+// Rampa da cor primária. O Ant deriva vários fundos (tag, linha selecionada,
+// alerta info) desses tons; sem declará-los o cálculo automático a partir de um
+// tom escuro gera fundos ilegíveis.
+@primary-1: #e8f2f5;
+@primary-2: #cbe2e8;
+@primary-3: #a3ccd6;
+@primary-4: #6fb0c0;
+@primary-5: #01758f; // hover (mais claro que a base)
+@primary-6: #015f75; // base
+@primary-7: #014a5c; // active (mais escuro que a base)
+@primary-8: #013c4b;
+@primary-9: #012e39;
+@primary-10: #011f27;
+
+// Alertas: fundo e borda declarados na mão, no mesmo motivo acima.
+@alert-info-bg-color: #e8f2f5;
+@alert-info-border-color: #b7d5dd;
+@alert-info-icon-color: @info-color;
+@alert-success-bg-color: #eaf6ee;
+@alert-success-border-color: #b9dfc6;
+@alert-success-icon-color: @success-color;
+@alert-warning-bg-color: #fdf3e7;
+@alert-warning-border-color: #f4d8b0;
+@alert-warning-icon-color: @warning-color;
+@alert-error-bg-color: #fdeceb;
+@alert-error-border-color: #f5c4c0;
+@alert-error-icon-color: @error-color;
+
+// Texto
+@heading-color: #0f1720;
+@text-color: #1c2b36;
+@text-color-secondary: #5b6b76;
+@disabled-color: #a3aeb6;
+
+// Superfícies e traços
+@body-background: #f7f8f9;
+@component-background: #ffffff;
+@border-color-base: #d7dbdf;
+@border-color-split: #e6e8eb;
+@background-color-light: #fafbfc;
+@background-color-base: #f2f4f5;
+
+// Tipografia
+@font-family: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+@font-size-base: 14px;
+@font-size-lg: 15px;
+@heading-1-size: 28px;
+@heading-2-size: 20px;
+@heading-3-size: 16px;
+
+// Forma: cantos mais suaves e sombras discretas (visual minimalista)
+@border-radius-base: 8px;
+@border-radius-sm: 6px;
+@box-shadow-base: 0 6px 16px -8px rgba(15, 23, 32, 0.08), 0 9px 28px 0 rgba(15, 23, 32, 0.05);
+@shadow-1-up: 0 -4px 12px rgba(15, 23, 32, 0.06);
+@shadow-1-down: 0 4px 12px rgba(15, 23, 32, 0.06);
+@shadow-1-left: -4px 0 12px rgba(15, 23, 32, 0.06);
+@shadow-1-right: 4px 0 12px rgba(15, 23, 32, 0.06);
+@shadow-2: 0 8px 24px rgba(15, 23, 32, 0.08);
+
+// Controles um pouco mais altos, respirando melhor
+@height-base: 36px;
+@height-lg: 42px;
+@height-sm: 28px;
+
+// Layout: sider claro, sem sombra
+@layout-body-background: #f7f8f9;
+@layout-sider-background: #ffffff;
+@layout-header-background: #ffffff;
+@layout-header-height: 60px;
+
+// Menu: item ativo em azul-petróleo suave, sem barra lateral
+@menu-bg: transparent;
+@menu-item-color: #5b6b76;
+@menu-highlight-color: #015f75;
+@menu-item-active-bg: #e8f2f5;
+@menu-item-active-border-width: 0;
+@menu-inline-toplevel-item-height: 40px;
+@menu-item-height: 40px;
+@menu-item-vertical-margin: 2px;
+@menu-item-boundary-margin: 0;
+
+// Tabela: cabeçalho discreto, sem borda vertical
+@table-header-bg: #fafbfc;
+@table-header-color: #5b6b76;
+@table-row-hover-bg: #f7fafb;
+@table-padding-vertical: 12px;
+@table-padding-horizontal: 16px;
+@table-border-color: #e6e8eb;
+@table-selected-row-bg: #e8f2f5;
+
+// Card: borda hairline em vez de sombra
+@card-radius: 14px;
+@card-padding-base: 20px;
+@card-head-padding: 18px;
+@card-head-color: #0f1720;
+@card-head-background: transparent;
+
+// Outros componentes
+@input-placeholder-color: #a3aeb6;
+@tag-default-bg: #f2f4f5;
+@tag-default-color: #5b6b76;
+@alert-with-description-padding: 16px 20px;
+@descriptions-bg: #fafbfc;
+@empty-font-size: 13px;

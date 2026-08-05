@@ -65,6 +65,23 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.autenticacaoService.adquirirSessao()?.email ?? '';
   }
 
+  /**
+   * Iniciais do usuario para o avatar do menu (ate duas letras).
+   */
+  get iniciaisUsuario(): string {
+
+    const partes = this.nomeUsuario.trim().split(/\s+/).filter(parte => parte.length > 0);
+
+    if (partes.length === 0) {
+      return '?';
+    }
+
+    const primeira = partes[0].charAt(0);
+    const ultima = partes.length > 1 ? partes[partes.length - 1].charAt(0) : '';
+
+    return `${primeira}${ultima}`.toUpperCase();
+  }
+
   get descricaoPerfil(): string {
     return this.autenticacaoService.adquirirDescricaoPerfil();
   }

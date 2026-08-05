@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
@@ -25,7 +24,6 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ComponentesModule,
-    NzAlertModule,
     NzCardModule,
     NzDescriptionsModule,
     NzEmptyModule,

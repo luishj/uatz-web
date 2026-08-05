@@ -4,73 +4,122 @@
   &__sider {
     display: flex;
     flex-direction: column;
-    padding: 24px 0;
-    background: var(--uatz-panel-bg);
+    padding: 20px 0 16px;
+    background: var(--uatz-surface);
     border-right: 1px solid var(--uatz-border);
-    box-shadow: var(--uatz-shadow-soft);
+    box-shadow: none;
 
-    ::ng-deep .ant-menu {
-      background: transparent;
-      border-inline-end: 0;
+    // O nz-sider usa um wrapper interno; sem isso o rodapé não desce.
+    ::ng-deep .ant-layout-sider-children {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
   }
 
   &__marca {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 0 24px 24px;
+    gap: 10px;
+    padding: 0 20px 20px;
   }
 
   &__marca-icone {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: linear-gradient(140deg, var(--uatz-brand-main), var(--uatz-brand-bright));
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--uatz-accent);
     color: #fff;
-    font-size: 1.1rem;
-    font-weight: 800;
+    font-size: 0.95rem;
+    font-weight: 700;
   }
 
-  &__marca-titulo {
-    margin: 0;
-    font-size: 1.05rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
+  &__marca-nome {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--uatz-ink);
   }
 
-  &__marca-subtitulo {
-    margin: 0;
-    color: var(--uatz-ink-muted);
-    font-size: 0.78rem;
+  &__menu {
+    flex: 1;
   }
 
   &__sessao {
-    margin-top: auto;
-    padding: 24px 24px 0;
+    margin: 16px 12px 0;
+    padding: 12px;
+    border: 1px solid var(--uatz-border);
+    border-radius: var(--uatz-radius);
+    background: var(--uatz-surface-muted);
+  }
+
+  &__usuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  &__avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--uatz-accent-soft);
+    color: var(--uatz-accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  &__usuario-dados {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
 
     strong {
-      display: block;
-      margin-top: 4px;
-      font-size: 0.95rem;
+      font-size: 0.86rem;
+      font-weight: 600;
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    small {
+      color: var(--uatz-ink-subtle);
+      font-size: 0.74rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
-  &__sessao-email {
-    margin: 0 0 8px;
-    color: var(--uatz-ink-muted);
-    font-size: 0.8rem;
-    word-break: break-all;
+  &__sessao-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
   }
 
   &__logout {
-    margin-top: 16px;
+    color: var(--uatz-ink-muted);
+
+    &:hover {
+      color: var(--uatz-danger);
+    }
   }
 
   &__conteudo {
-    padding: 32px 40px 48px;
     overflow-x: hidden;
+  }
+
+  &__pagina {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 32px 56px;
   }
 }

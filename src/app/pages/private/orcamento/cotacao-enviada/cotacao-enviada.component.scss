@@ -4,18 +4,23 @@
   }
 
   &__cabecalho-painel {
-    margin-bottom: 16px;
-
-    h2 {
-      margin: 4px 0 0;
-      font-size: 1.15rem;
-      font-weight: 700;
-    }
+    margin-bottom: 4px;
   }
 
   &__mensagem {
     margin: 0;
+    max-width: 76ch;
     white-space: pre-line;
     color: var(--uatz-ink-muted);
+    line-height: 1.6;
+  }
+
+  &__valor {
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__total {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
   }
 }

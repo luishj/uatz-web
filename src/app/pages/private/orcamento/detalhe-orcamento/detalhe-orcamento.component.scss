@@ -3,23 +3,23 @@
     margin-bottom: 16px;
   }
 
-  &__titulo-painel {
-    margin: 4px 0 0;
-    font-size: 1.15rem;
-    font-weight: 700;
+  &__cabecalho-painel {
+    margin-bottom: 4px;
   }
 
   &__mensagem-original {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     white-space: pre-line;
   }
 
+  // Itens da revisão: bloco por item, separado por divisor hairline.
   &__item-revisao {
-    padding: 8px 0;
-    border-bottom: 1px dashed var(--uatz-border);
+    padding-top: 12px;
+    border-top: 1px solid var(--uatz-border);
 
-    &:last-child {
-      border-bottom: 0;
+    &:first-child {
+      padding-top: 0;
+      border-top: 0;
     }
   }
 
@@ -27,41 +27,51 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-bottom: 24px;
+    padding-bottom: 18px;
   }
 
   &__acoes {
     display: flex;
     justify-content: space-between;
     gap: 8px;
-    margin-top: 8px;
+    margin-top: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--uatz-border);
   }
 
   &__ajuda {
-    margin: 12px 0 16px;
+    margin: 12px 0 20px;
+    font-size: 0.88rem;
   }
 
+  // Destaque da melhor oferta: fundo suave no tom da marca, sem sombra.
   &__melhor-oferta {
-    margin-top: 16px;
-    padding: 16px;
-    border-radius: 12px;
-    background: rgba(27, 187, 241, 0.08);
+    margin-top: 20px;
+    padding: 16px 18px;
+    border: 1px solid var(--uatz-accent-border);
+    border-radius: var(--uatz-radius);
+    background: var(--uatz-accent-soft);
 
     h3 {
-      margin: 4px 0;
-      font-size: 1.05rem;
-      font-weight: 700;
+      margin: 6px 0 2px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--uatz-ink);
     }
 
     strong {
       display: block;
       margin-bottom: 8px;
-      font-size: 1.3rem;
-      color: var(--uatz-brand-main);
+      font-size: 1.5rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: var(--uatz-accent);
     }
 
     p {
       margin: 0;
+      font-size: 0.88rem;
     }
   }
 
@@ -73,21 +83,35 @@
     margin-top: 16px;
   }
 
+  // Item a cotar: descrição à esquerda, preço à direita.
   &__item-cotacao {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
-    padding: 8px 0;
-    border-bottom: 1px dashed var(--uatz-border);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--uatz-border);
+
+    &:first-child {
+      padding-top: 0;
+    }
 
     p {
-      margin: 0;
+      margin: 2px 0 0;
+      font-size: 0.85rem;
     }
+  }
+
+  &__item-cotacao-descricao strong {
+    font-weight: 600;
   }
 
   &__item-cotacao-preco {
     margin-bottom: 0;
-    min-width: 160px;
+    min-width: 150px;
+  }
+
+  &__valor {
+    font-variant-numeric: tabular-nums;
   }
 }

@@ -1,5 +1,16 @@
 .simulacao-whatsapp {
+  // Formulário de coluna única, com largura de leitura confortável.
+  &__card {
+    max-width: 760px;
+  }
+
   &__ajuda {
     margin-bottom: 24px;
+  }
+
+  &__acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
   }
 }

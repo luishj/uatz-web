@@ -3,23 +3,16 @@
   [titulo]="idioma.CLIENTE.TITULO"
   [subtitulo]="idioma.CLIENTE.SUBTITULO"></uatz-pagina-cabecalho>
 
-<nz-alert
-  *ngIf="flagFalha"
-  nzType="error"
-  [nzMessage]="idioma.CLIENTE.FALHA_CARREGAR"
-  nzShowIcon
-  class="cliente__alerta"></nz-alert>
-
 <div class="uatz-grid-2">
   <nz-card [nzTitle]="tituloBase">
     <ng-template #tituloBase>
       <p class="eyebrow">{{ idioma.CLIENTE.BASE_ATUAL }}</p>
-      <h2 class="cliente__titulo-painel">{{ idioma.CLIENTE.CADASTRADOS }}</h2>
+      <h2 class="uatz-titulo-painel">{{ idioma.CLIENTE.CADASTRADOS }}</h2>
     </ng-template>
 
     <nz-empty
-      *ngIf="!flagCarregando && !flagFalha && clientes.length === 0"
-      [nzNotFoundContent]="idioma.CLIENTE.SEM_CLIENTES"></nz-empty>
+      *ngIf="!flagCarregando && clientes.length === 0"
+      [nzNotFoundContent]="flagFalha ? idioma.CLIENTE.FALHA_CARREGAR : idioma.CLIENTE.SEM_CLIENTES"></nz-empty>
 
     <nz-list *ngIf="clientes.length > 0" nzSize="small">
       <nz-list-item
@@ -29,7 +22,7 @@
         (click)="selecionarCliente(cliente)">
         <nz-list-item-meta [nzTitle]="tituloCliente" [nzDescription]="descricaoCliente">
           <ng-template #tituloCliente>
-            <strong>{{ formatarTelefone(cliente.phone) }}</strong>
+            <strong class="cliente__telefone">{{ formatarTelefone(cliente.phone) }}</strong>
           </ng-template>
           <ng-template #descricaoCliente>
             <span>{{ descricaoCidade(cliente.city) }} • {{ descricaoEstado(cliente.state) }}</span>
@@ -56,14 +49,14 @@
   <nz-card [nzTitle]="tituloDetalhe">
     <ng-template #tituloDetalhe>
       <p class="eyebrow">{{ idioma.CLIENTE.DETALHAMENTO }}</p>
-      <h2 class="cliente__titulo-painel">
+      <h2 class="uatz-titulo-painel">
         {{ clienteSelecionado ? formatarTelefone(clienteSelecionado.phone) : idioma.APP.VAZIO }}
       </h2>
     </ng-template>
 
     <nz-empty
-      *ngIf="!clienteSelecionado && !flagFalha"
-      [nzNotFoundContent]="idioma.CLIENTE.SELECIONE"></nz-empty>
+      *ngIf="!clienteSelecionado"
+      [nzNotFoundContent]="flagFalha ? idioma.CLIENTE.FALHA_CARREGAR : idioma.CLIENTE.SELECIONE"></nz-empty>
 
     <ng-container *ngIf="clienteSelecionado as cliente">
       <nz-descriptions nzBordered nzSize="small" [nzColumn]="3">

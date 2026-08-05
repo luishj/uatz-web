@@ -28,7 +28,7 @@ const routes: Routes = [
         loadChildren: () => import('./pages/private/orcamento/lista-orcamento/lista-orcamento.module').then(m => m.ListaOrcamentoModule)
       },
       {
-        path: 'orcamentos/simular-whatsapp',
+        path: 'simular-whatsapp',
         loadChildren: () => import('./pages/private/orcamento/simulacao-whatsapp/simulacao-whatsapp.module').then(m => m.SimulacaoWhatsAppModule)
       },
       {

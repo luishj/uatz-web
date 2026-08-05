@@ -3,18 +3,11 @@
   [titulo]="idioma.FORNECEDOR.TITULO"
   [subtitulo]="idioma.FORNECEDOR.SUBTITULO"></uatz-pagina-cabecalho>
 
-<nz-alert
-  *ngIf="flagFalha"
-  nzType="error"
-  [nzMessage]="idioma.FORNECEDOR.FALHA_CARREGAR"
-  nzShowIcon
-  class="fornecedor__alerta"></nz-alert>
-
 <div class="uatz-grid-2">
   <nz-card [nzTitle]="tituloFormularioTemplate">
     <ng-template #tituloFormularioTemplate>
       <p class="eyebrow">{{ idioma.FORNECEDOR.NOVO }}</p>
-      <h2 class="fornecedor__titulo-painel">{{ tituloFormulario }}</h2>
+      <h2 class="uatz-titulo-painel">{{ tituloFormulario }}</h2>
     </ng-template>
 
     <form nz-form [formGroup]="form" (ngSubmit)="salvar()" nzLayout="vertical">
@@ -100,12 +93,12 @@
   <nz-card [nzTitle]="tituloBase">
     <ng-template #tituloBase>
       <p class="eyebrow">{{ idioma.FORNECEDOR.BASE_ATUAL }}</p>
-      <h2 class="fornecedor__titulo-painel">{{ idioma.FORNECEDOR.CADASTRADOS }}</h2>
+      <h2 class="uatz-titulo-painel">{{ idioma.FORNECEDOR.CADASTRADOS }}</h2>
     </ng-template>
 
     <nz-empty
-      *ngIf="!flagCarregando && !flagFalha && fornecedores.length === 0"
-      [nzNotFoundContent]="idioma.FORNECEDOR.SEM_FORNECEDORES"></nz-empty>
+      *ngIf="!flagCarregando && fornecedores.length === 0"
+      [nzNotFoundContent]="flagFalha ? idioma.FORNECEDOR.FALHA_CARREGAR : idioma.FORNECEDOR.SEM_FORNECEDORES"></nz-empty>
 
     <nz-list *ngIf="fornecedores.length > 0" nzSize="small">
       <nz-list-item *ngFor="let fornecedor of fornecedores">

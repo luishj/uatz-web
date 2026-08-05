@@ -2,8 +2,8 @@
   [eyebrow]="idioma.DASHBOARD.EYEBROW"
   [titulo]="idioma.DASHBOARD.TITULO">
   <a nz-button nzType="primary" routerLink="/orcamentos">
-    <span nz-icon nzType="arrow-right"></span>
     {{ idioma.DASHBOARD.ABRIR_FILA }}
+    <span nz-icon nzType="arrow-right"></span>
   </a>
 </uatz-pagina-cabecalho>
 
@@ -25,17 +25,24 @@
   </div>
 </div>
 
-<nz-card class="uatz-espaco-topo">
-  <div class="dashboard__cabecalho-painel">
-    <p class="eyebrow">{{ idioma.DASHBOARD.FILA_RECENTE }}</p>
-    <h2>{{ idioma.DASHBOARD.ULTIMOS_ORCAMENTOS }}</h2>
-  </div>
+<nz-card class="uatz-espaco-topo" [nzTitle]="tituloFila">
+  <ng-template #tituloFila>
+    <div class="dashboard__cabecalho-painel">
+      <div>
+        <p class="eyebrow">{{ idioma.DASHBOARD.FILA_RECENTE }}</p>
+        <h2 class="uatz-titulo-painel">{{ idioma.DASHBOARD.ULTIMOS_ORCAMENTOS }}</h2>
+      </div>
+      <a nz-button nzType="text" nzSize="small" routerLink="/orcamentos">
+        {{ idioma.DASHBOARD.ABRIR_FILA }}
+      </a>
+    </div>
+  </ng-template>
 
   <nz-empty
     *ngIf="!flagCarregando && ultimosOrcamentos.length === 0"
     [nzNotFoundContent]="idioma.DASHBOARD.SEM_ORCAMENTOS"></nz-empty>
 
-  <nz-list *ngIf="ultimosOrcamentos.length > 0" [nzItemLayout]="'horizontal'">
+  <nz-list *ngIf="ultimosOrcamentos.length > 0" nzSize="small">
     <nz-list-item *ngFor="let orcamento of ultimosOrcamentos">
       <nz-list-item-meta
         [nzTitle]="tituloOrcamento"

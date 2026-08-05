@@ -1,20 +1,45 @@
-// Tokens visuais da marca UATZ, expostos como custom properties para poderem
-// ser usados tanto no SCSS dos componentes quanto em estilos do ng-zorro.
+// Tokens visuais da plataforma UATZ.
+//
+// Tema claro minimalista: superfícies brancas, fundo neutro, divisores hairline
+// e o azul-petróleo da marca usado apenas em ação (botão primário, item ativo,
+// link, foco). Os mesmos valores estão em `theme.less`, que alimenta o
+// ng-zorro — ao mudar um deles, mude nos dois lugares.
 :root {
-  --uatz-brand-main: #1bbbf1;
-  --uatz-brand-mid: #3eccf5;
-  --uatz-brand-bright: #62ddf8;
-  --uatz-brand-soft: #85eefc;
-  --uatz-brand-ice: #a8ffff;
-  --uatz-ink-strong: #062b3f;
-  --uatz-ink-muted: #4d7286;
-  --uatz-panel-bg: rgba(255, 255, 255, 0.78);
-  --uatz-border: rgba(27, 187, 241, 0.18);
-  --uatz-shadow-soft: 0 20px 55px rgba(8, 50, 66, 0.12);
-  --uatz-shadow-strong: 0 34px 80px rgba(7, 43, 58, 0.18);
+  // Marca / ação
+  --uatz-accent: #015f75;
+  --uatz-accent-hover: #01758f;
+  --uatz-accent-active: #014a5c;
+  --uatz-accent-soft: #e8f2f5;
+  --uatz-accent-soft-hover: #dcecf0;
+  --uatz-accent-border: #b7d5dd;
+
+  // Superfícies
+  --uatz-bg: #f7f8f9;
+  --uatz-surface: #ffffff;
+  --uatz-surface-muted: #fafbfc;
+
+  // Traços
+  --uatz-border: #e6e8eb;
+  --uatz-border-strong: #d7dbdf;
+
+  // Texto
+  --uatz-ink: #0f1720;
+  --uatz-ink-muted: #5b6b76;
+  --uatz-ink-subtle: #8a99a3;
+
+  // Semântico
+  --uatz-success: #15803d;
+  --uatz-warning: #b45309;
+  --uatz-danger: #b42318;
+
+  // Forma
+  --uatz-radius: 10px;
+  --uatz-radius-lg: 14px;
 }
 
-$uatz-brand-main: #1bbbf1;
-$uatz-brand-bright: #62ddf8;
-$uatz-ink-strong: #062b3f;
-$uatz-ink-muted: #4d7286;
+$uatz-accent: #015f75;
+$uatz-accent-soft: #e8f2f5;
+$uatz-bg: #f7f8f9;
+$uatz-border: #e6e8eb;
+$uatz-ink: #0f1720;
+$uatz-ink-muted: #5b6b76;

@@ -56,7 +56,7 @@ and `language/idioma.ts` with every user-facing text.
 - Public routes under `/public/`; private routes at root level, behind `canActivate: [AuthGuard]`
 - Admin-only routes add `canActivate: [AdminGuard]`
 - Route paths are Portuguese: `/orcamentos`, `/orcamentos/:id`,
-  `/orcamentos/:id/cotacao-enviada`, `/orcamentos/simular-whatsapp`, `/clientes`, `/fornecedores`
+  `/orcamentos/:id/cotacao-enviada`, `/simular-whatsapp`, `/clientes`, `/fornecedores`
 
 Every component declared in a module needs `standalone: false` — Angular 19 defaults it to `true`.
 
@@ -164,12 +164,26 @@ salvar(): void {
 
 ## Styles
 
-- SCSS with BEM-ish class names scoped by page (`.detalhe-orcamento__item-cotacao`)
-- Brand tokens in `src/variables.scss` as CSS custom properties (`--uatz-brand-main`, ...)
-- Global helpers in `src/styles.scss`: `.eyebrow`, `.uatz-painel`, `.uatz-grid-2`, `.uatz-grid-3`,
-  `.uatz-texto-apoio`, `.uatz-espaco-topo`
-- ng-zorro comes from the pre-built `ng-zorro-antd.min.css` (no LESS theming); override with the
-  tokens above
+Light, minimal theme: white surfaces, neutral `#f7f8f9` page background, hairline dividers, no
+gradients and no shadows on cards. The brand teal `#015f75` is used only for action (primary button,
+active menu item, link, focus).
+
+- `src/theme.less` — the ng-zorro theme, compiled from the library's LESS. Overrides
+  `@primary-color`, typography, radii, layout/menu/table/card tokens. Two blocks there are **not
+  optional**: the `@primary-1..@primary-10` ramp and the `@alert-*-bg-color/border-color`. Ant derives
+  several backgrounds from the primary color, and from a dark base that derivation produces
+  unreadable fills (an info alert came out dark gray-green before they were declared).
+- `src/variables.scss` — the same values as CSS custom properties (`--uatz-accent`, `--uatz-ink`,
+  `--uatz-border`, `--uatz-radius`, ...) for use in component SCSS. Change a color in both files.
+- `src/styles.scss` — reset, scrollbar, the ng-zorro tweaks that LESS variables can't reach (card
+  border instead of shadow, menu pill, table borders, list dividers) and the helpers `.eyebrow`,
+  `.uatz-painel`, `.uatz-grid-2`, `.uatz-grid-3`, `.uatz-texto-apoio`, `.uatz-espaco-topo`,
+  `.uatz-titulo-painel`
+- Component SCSS: BEM-ish names scoped by page (`.detalhe-orcamento__item-cotacao`); use the CSS
+  custom properties, never a hard-coded hex
+
+Panel titles inside a card use the `eyebrow` + `.uatz-titulo-painel` pair via `[nzTitle]` template.
+Money and quantity columns get `font-variant-numeric: tabular-nums` so digits line up.
 
 ## Build
 

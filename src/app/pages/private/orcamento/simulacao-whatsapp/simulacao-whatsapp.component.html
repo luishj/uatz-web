@@ -2,13 +2,13 @@
   [eyebrow]="idioma.SIMULACAO_WHATSAPP.EYEBROW"
   [titulo]="idioma.SIMULACAO_WHATSAPP.TITULO"
   [subtitulo]="idioma.SIMULACAO_WHATSAPP.SUBTITULO">
-  <a nz-button nzType="default" routerLink="/orcamentos">
+  <a nz-button nzType="text" routerLink="/orcamentos">
     <span nz-icon nzType="arrow-left"></span>
     {{ idioma.SIMULACAO_WHATSAPP.VOLTAR }}
   </a>
 </uatz-pagina-cabecalho>
 
-<nz-card>
+<nz-card class="simulacao-whatsapp__card">
   <form nz-form [formGroup]="form" (ngSubmit)="simular()" nzLayout="vertical">
     <div nz-row [nzGutter]="16">
       <div nz-col nzXs="24" nzSm="8">
@@ -49,7 +49,7 @@
         <textarea
           nz-input
           id="message"
-          rows="8"
+          rows="9"
           formControlName="message"
           [placeholder]="idioma.SIMULACAO_WHATSAPP.MENSAGEM_PLACEHOLDER"></textarea>
       </nz-form-control>
@@ -59,11 +59,13 @@
       nzType="info"
       [nzMessage]="idioma.SIMULACAO_WHATSAPP.AJUDA_TITULO"
       [nzDescription]="idioma.SIMULACAO_WHATSAPP.AJUDA_TEXTO"
-      nzShowIcon
       class="simulacao-whatsapp__ajuda"></nz-alert>
 
-    <button nz-button nzType="primary" nzBlock nzSize="large" [nzLoading]="flagSalvando" type="submit">
-      {{ flagSalvando ? idioma.SIMULACAO_WHATSAPP.CRIANDO : idioma.SIMULACAO_WHATSAPP.CRIAR }}
-    </button>
+    <div class="simulacao-whatsapp__acoes">
+      <a nz-button nzType="default" routerLink="/orcamentos">{{ idioma.FORNECEDOR.CANCELAR }}</a>
+      <button nz-button nzType="primary" [nzLoading]="flagSalvando" type="submit">
+        {{ flagSalvando ? idioma.SIMULACAO_WHATSAPP.CRIANDO : idioma.SIMULACAO_WHATSAPP.CRIAR }}
+      </button>
+    </div>
   </form>
 </nz-card>

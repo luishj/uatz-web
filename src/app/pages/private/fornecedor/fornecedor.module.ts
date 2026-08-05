@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
@@ -32,7 +31,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     ComponentesModule,
-    NzAlertModule,
     NzButtonModule,
     NzCardModule,
     NzCheckboxModule,

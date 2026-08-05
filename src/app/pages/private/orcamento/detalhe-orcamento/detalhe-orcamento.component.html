@@ -38,7 +38,7 @@
     <nz-card *ngIf="flagAdminOuOperador" [nzTitle]="tituloRevisao">
       <ng-template #tituloRevisao>
         <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.TRIAGEM }}</p>
-        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.REVISAO }}</h2>
+        <h2 class="uatz-titulo-painel">{{ idioma.DETALHE_ORCAMENTO.REVISAO }}</h2>
       </ng-template>
 
       <nz-alert
@@ -120,7 +120,7 @@
     <nz-card [nzTitle]="tituloItens">
       <ng-template #tituloItens>
         <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.ITENS }}</p>
-        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COMPOSICAO }}</h2>
+        <h2 class="uatz-titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COMPOSICAO }}</h2>
       </ng-template>
 
       <nz-list nzSize="small">
@@ -137,7 +137,7 @@
     <nz-card *ngIf="flagAdminOuOperador && resumo as resumo" [nzTitle]="tituloResumo">
       <ng-template #tituloResumo>
         <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.RESUMO }}</p>
-        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COMPARATIVO }}</h2>
+        <h2 class="uatz-titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COMPARATIVO }}</h2>
       </ng-template>
 
       <nz-descriptions nzBordered nzSize="small" [nzColumn]="3">
@@ -169,7 +169,7 @@
     <nz-card *ngIf="flagAdminOuOperador" [nzTitle]="tituloDistribuicao">
       <ng-template #tituloDistribuicao>
         <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.DISTRIBUICAO }}</p>
-        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.ENVIO_FORNECEDORES }}</h2>
+        <h2 class="uatz-titulo-painel">{{ idioma.DETALHE_ORCAMENTO.ENVIO_FORNECEDORES }}</h2>
       </ng-template>
 
       <button nz-button nzType="primary" [nzLoading]="flagDistribuindo" (click)="distribuir()">
@@ -216,7 +216,7 @@
     <nz-card [nzTitle]="tituloCotacao">
       <ng-template #tituloCotacao>
         <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.NOVA_COTACAO }}</p>
-        <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.REGISTRAR_RESPOSTA }}</h2>
+        <h2 class="uatz-titulo-painel">{{ idioma.DETALHE_ORCAMENTO.REGISTRAR_RESPOSTA }}</h2>
       </ng-template>
 
       <nz-empty
@@ -346,7 +346,7 @@
   <nz-card *ngIf="flagAdminOuOperador && resumo as resumo" class="uatz-espaco-topo" [nzTitle]="tituloHistorico">
     <ng-template #tituloHistorico>
       <p class="eyebrow">{{ idioma.DETALHE_ORCAMENTO.HISTORICO }}</p>
-      <h2 class="detalhe-orcamento__titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COTACOES_RECEBIDAS }}</h2>
+      <h2 class="uatz-titulo-painel">{{ idioma.DETALHE_ORCAMENTO.COTACOES_RECEBIDAS }}</h2>
     </ng-template>
 
     <nz-empty

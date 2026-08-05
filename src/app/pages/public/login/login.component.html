@@ -5,21 +5,27 @@
     <p class="login__intro">{{ idioma.LOGIN.INTRO }}</p>
 
     <div class="login__destaques">
-      <nz-card nzSize="small">
+      <article class="login__destaque">
         <span class="login__destaque-numero">01</span>
-        <h2>{{ idioma.LOGIN.DESTAQUE_1_TITULO }}</h2>
-        <p>{{ idioma.LOGIN.DESTAQUE_1_TEXTO }}</p>
-      </nz-card>
-      <nz-card nzSize="small">
+        <div>
+          <h2>{{ idioma.LOGIN.DESTAQUE_1_TITULO }}</h2>
+          <p>{{ idioma.LOGIN.DESTAQUE_1_TEXTO }}</p>
+        </div>
+      </article>
+      <article class="login__destaque">
         <span class="login__destaque-numero">02</span>
-        <h2>{{ idioma.LOGIN.DESTAQUE_2_TITULO }}</h2>
-        <p>{{ idioma.LOGIN.DESTAQUE_2_TEXTO }}</p>
-      </nz-card>
-      <nz-card nzSize="small">
+        <div>
+          <h2>{{ idioma.LOGIN.DESTAQUE_2_TITULO }}</h2>
+          <p>{{ idioma.LOGIN.DESTAQUE_2_TEXTO }}</p>
+        </div>
+      </article>
+      <article class="login__destaque">
         <span class="login__destaque-numero">03</span>
-        <h2>{{ idioma.LOGIN.DESTAQUE_3_TITULO }}</h2>
-        <p>{{ idioma.LOGIN.DESTAQUE_3_TEXTO }}</p>
-      </nz-card>
+        <div>
+          <h2>{{ idioma.LOGIN.DESTAQUE_3_TITULO }}</h2>
+          <p>{{ idioma.LOGIN.DESTAQUE_3_TEXTO }}</p>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -27,7 +33,7 @@
     <nz-card class="login__card">
       <p class="eyebrow">{{ idioma.LOGIN.ACESSO }}</p>
       <h2>{{ idioma.LOGIN.ENTRAR_PAINEL }}</h2>
-      <p class="uatz-texto-apoio">{{ idioma.LOGIN.AJUDA }}</p>
+      <p class="uatz-texto-apoio login__ajuda">{{ idioma.LOGIN.AJUDA }}</p>
 
       <form nz-form [formGroup]="form" (ngSubmit)="entrar()" nzLayout="vertical">
         <nz-form-item>
@@ -47,7 +53,7 @@
           <nz-form-label nzFor="password">{{ idioma.LOGIN.SENHA }}</nz-form-label>
           <nz-form-control [nzErrorTip]="erroSenha">
             <nz-input-group nzPrefixIcon="lock">
-              <input nz-input id="password" type="password" formControlName="password" placeholder="******" />
+              <input nz-input id="password" type="password" formControlName="password" placeholder="••••••" />
             </nz-input-group>
           </nz-form-control>
           <ng-template #erroSenha let-control>

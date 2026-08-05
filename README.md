@@ -44,7 +44,7 @@ src/
 | `/public/login` | Login | visitante |
 | `/` | Dashboard | autenticado |
 | `/orcamentos` | Fila de pedidos | autenticado |
-| `/orcamentos/simular-whatsapp` | Simulação WhatsApp | admin/operador |
+| `/simular-whatsapp` | Simulação WhatsApp | admin/operador |
 | `/orcamentos/:id` | Detalhe do pedido | autenticado |
 | `/orcamentos/:id/cotacao-enviada` | Orçamento enviado | fornecedor |
 | `/clientes` | Clientes | admin |

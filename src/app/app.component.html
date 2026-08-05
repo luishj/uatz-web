@@ -4,19 +4,16 @@
 
 <ng-template #shell>
   <nz-layout class="uatz-shell">
-    <nz-sider class="uatz-shell__sider" nzWidth="264px" [nzCollapsible]="false">
+    <nz-sider class="uatz-shell__sider" nzWidth="252px" [nzCollapsible]="false">
       <div class="uatz-shell__marca">
         <span class="uatz-shell__marca-icone">U</span>
-        <div>
-          <p class="uatz-shell__marca-titulo">{{ idioma.APP.NOME }}</p>
-          <p class="uatz-shell__marca-subtitulo">{{ idioma.APP.SUBTITULO }}</p>
-        </div>
+        <span class="uatz-shell__marca-nome">{{ idioma.APP.NOME }}</span>
       </div>
 
-      <ul nz-menu nzMode="inline" nzTheme="light">
+      <ul nz-menu nzMode="inline" nzTheme="light" class="uatz-shell__menu">
         <li nz-menu-item nzMatchRouter [nzMatchRouterExact]="true">
           <a routerLink="/">
-            <span nz-icon nzType="dashboard"></span>
+            <span nz-icon nzType="pie-chart"></span>
             <span>{{ idioma.MENU.VISAO_GERAL }}</span>
           </a>
         </li>
@@ -27,7 +24,7 @@
           </a>
         </li>
         <li nz-menu-item nzMatchRouter *ngIf="flagAdminOuOperador">
-          <a routerLink="/orcamentos/simular-whatsapp">
+          <a routerLink="/simular-whatsapp">
             <span nz-icon nzType="message"></span>
             <span>{{ idioma.MENU.SIMULAR_WHATSAPP }}</span>
           </a>
@@ -47,22 +44,36 @@
       </ul>
 
       <div class="uatz-shell__sessao">
-        <p class="eyebrow">{{ idioma.APP.SESSAO }}</p>
-        <strong>{{ nomeUsuario }}</strong>
-        <p class="uatz-shell__sessao-email">{{ emailUsuario }}</p>
-        <nz-tag nzColor="cyan">{{ descricaoPerfil }}</nz-tag>
+        <div class="uatz-shell__usuario">
+          <span class="uatz-shell__avatar">{{ iniciaisUsuario }}</span>
+          <span class="uatz-shell__usuario-dados">
+            <strong>{{ nomeUsuario }}</strong>
+            <small>{{ emailUsuario }}</small>
+          </span>
+        </div>
 
-        <button nz-button nzType="default" nzBlock class="uatz-shell__logout" (click)="logout()">
-          <span nz-icon nzType="logout"></span>
-          {{ idioma.APP.ENCERRAR_SESSAO }}
-        </button>
+        <div class="uatz-shell__sessao-rodape">
+          <nz-tag>{{ descricaoPerfil }}</nz-tag>
+          <button
+            nz-button
+            nzType="text"
+            nzSize="small"
+            class="uatz-shell__logout"
+            nz-tooltip
+            [nzTooltipTitle]="idioma.APP.ENCERRAR_SESSAO"
+            (click)="logout()">
+            <span nz-icon nzType="logout"></span>
+          </button>
+        </div>
       </div>
     </nz-sider>
 
     <nz-layout>
       <nz-content class="uatz-shell__conteudo">
         <nz-spin [nzSpinning]="flagCarregando" nzSize="large">
-          <router-outlet></router-outlet>
+          <div class="uatz-shell__pagina">
+            <router-outlet></router-outlet>
+          </div>
         </nz-spin>
       </nz-content>
     </nz-layout>
