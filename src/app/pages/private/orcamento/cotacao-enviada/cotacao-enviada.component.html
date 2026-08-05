@@ -5,6 +5,10 @@
   nzShowIcon
   class="cotacao-enviada__alerta"></nz-alert>
 
+<nz-card *ngIf="flagCarregando && !mensagemErro">
+  <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 4 }"></nz-skeleton>
+</nz-card>
+
 <ng-container *ngIf="cotacao as cotacao">
   <uatz-pagina-cabecalho
     [eyebrow]="idioma.COTACAO_ENVIADA.EYEBROW"

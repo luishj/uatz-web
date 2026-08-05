@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
-import { catchError, finalize, switchMap } from 'rxjs/operators';
+import { forkJoin, of, Subscription } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { AutenticacaoService } from 'src/app/services/base/autenticacao.service';
 import { CotacaoService } from 'src/app/services/cotacao/cotacao.service';
 import { OrcamentoService } from 'src/app/services/orcamento/orcamento.service';
@@ -19,7 +19,7 @@ import { idioma } from 'src/environments/language/idioma';
   styleUrls: ['./cotacao-enviada.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CotacaoEnviadaComponent implements OnInit {
+export class CotacaoEnviadaComponent implements OnInit, OnDestroy {
 
   idioma = idioma;
 
@@ -28,6 +28,8 @@ export class CotacaoEnviadaComponent implements OnInit {
 
   cotacao: CotacaoDetalheDTO | null = null;
   atribuicao: OrcamentoFornecedorDTO | null = null;
+
+  private _subscriptions = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -41,6 +43,10 @@ export class CotacaoEnviadaComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarPagina();
+  }
+
+  ngOnDestroy(): void {
+    this._subscriptions.unsubscribe();
   }
 
   formatarValor(valor: number | null): string {
@@ -69,51 +75,66 @@ export class CotacaoEnviadaComponent implements OnInit {
 
   private carregarPagina(): void {
 
-    this.route.paramMap
-      .pipe(
-        switchMap(params => {
+    this._subscriptions.add(
+      this.route.paramMap
+        .pipe(
+          switchMap(params => {
 
-          const codigoOrcamento = Number(params.get('id'));
+            const codigoOrcamento = Number(params.get('id'));
 
-          if (!this.autenticacaoService.isFornecedor()) {
-            void this.router.navigate(codigoOrcamento ? ['/orcamentos', codigoOrcamento] : ['/orcamentos']);
-            return of(null);
+            if (!this.autenticacaoService.isFornecedor()) {
+              void this.router.navigate(codigoOrcamento ? ['/orcamentos', codigoOrcamento] : ['/orcamentos']);
+              return of(null);
+            }
+
+            if (!codigoOrcamento) {
+              this.mensagemErro = idioma.DETALHE_ORCAMENTO.ORCAMENTO_INVALIDO;
+              return of(null);
+            }
+
+            this.flagCarregando = true;
+
+            return forkJoin({
+              atribuicao: this.orcamentoService.adquirirMinhaAtribuicao(codigoOrcamento).pipe(catchError(() => of(null))),
+              cotacao: this.cotacaoService.adquirirMinhaPorOrcamento(codigoOrcamento).pipe(catchError(() => of(null)))
+            });
+          })
+        )
+        .subscribe({
+          next: retorno => {
+
+            this.finalizarCarregamento();
+
+            if (!retorno) {
+              return;
+            }
+
+            const respondeu = retorno.atribuicao?.status === SituacaoOrcamentoFornecedorEnum.RESPONDED;
+
+            if (!respondeu || !retorno.cotacao) {
+              const codigoOrcamento = Number(this.route.snapshot.paramMap.get('id'));
+              void this.router.navigate(codigoOrcamento ? ['/orcamentos', codigoOrcamento] : ['/orcamentos']);
+              return;
+            }
+
+            this.atribuicao = retorno.atribuicao;
+            this.cotacao = retorno.cotacao;
+          },
+          error: () => {
+            this.mensagemErro = idioma.COTACAO_ENVIADA.FALHA_CARREGAR;
+            this.finalizarCarregamento();
           }
-
-          if (!codigoOrcamento) {
-            this.mensagemErro = idioma.DETALHE_ORCAMENTO.ORCAMENTO_INVALIDO;
-            return of(null);
-          }
-
-          return forkJoin({
-            atribuicao: this.orcamentoService.adquirirMinhaAtribuicao(codigoOrcamento).pipe(catchError(() => of(null))),
-            cotacao: this.cotacaoService.adquirirMinhaPorOrcamento(codigoOrcamento).pipe(catchError(() => of(null)))
-          });
-        }),
-        finalize(() => {
-          this.flagCarregando = false;
-          this.changeDetector.markForCheck();
         })
-      )
-      .subscribe({
-        next: retorno => {
+    );
+  }
 
-          if (!retorno) {
-            return;
-          }
-
-          const respondeu = retorno.atribuicao?.status === SituacaoOrcamentoFornecedorEnum.RESPONDED;
-
-          if (!respondeu || !retorno.cotacao) {
-            const codigoOrcamento = Number(this.route.snapshot.paramMap.get('id'));
-            void this.router.navigate(codigoOrcamento ? ['/orcamentos', codigoOrcamento] : ['/orcamentos']);
-            return;
-          }
-
-          this.atribuicao = retorno.atribuicao;
-          this.cotacao = retorno.cotacao;
-        },
-        error: () => this.mensagemErro = idioma.COTACAO_ENVIADA.FALHA_CARREGAR
-      });
+  /**
+   * `route.paramMap` nao completa enquanto a rota esta ativa, entao o `finalize`
+   * do pipe nunca rodaria: o `markForCheck` precisa acontecer em cada emissao,
+   * senao a view OnPush fica sem renderizar o orcamento carregado.
+   */
+  private finalizarCarregamento(): void {
+    this.flagCarregando = false;
+    this.changeDetector.markForCheck();
   }
 }
