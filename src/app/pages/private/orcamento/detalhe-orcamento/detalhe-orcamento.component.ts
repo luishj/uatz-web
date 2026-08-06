@@ -313,8 +313,13 @@ export class DetalheOrcamentoComponent implements OnInit, OnDestroy {
 
             return forkJoin({
               orcamento: this.orcamentoService.obter(codigo),
-              resumo: this.cotacaoService.adquirirResumoPorOrcamento(codigo)
-                .pipe(catchError(() => of(this.resumoVazio(codigo)))),
+              // O resumo compara as cotacoes de todos os fornecedores do pedido, entao
+              // o servidor so o entrega a ADMIN/OPERATOR. Nem pedimos para o fornecedor:
+              // evita um 403 no console a cada abertura da tela.
+              resumo: flagFornecedor
+                ? of(this.resumoVazio(codigo))
+                : this.cotacaoService.adquirirResumoPorOrcamento(codigo)
+                  .pipe(catchError(() => of(this.resumoVazio(codigo)))),
               fornecedoresVinculados: flagFornecedor
                 ? of([] as OrcamentoFornecedorDTO[])
                 : this.orcamentoService.listarFornecedores(codigo).pipe(catchError(() => of([] as OrcamentoFornecedorDTO[]))),

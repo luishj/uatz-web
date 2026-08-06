@@ -19,12 +19,12 @@
         <nz-statistic [nzValue]="orcamento.items.length" [nzTitle]="idioma.DETALHE_ORCAMENTO.ITENS"></nz-statistic>
       </nz-card>
     </div>
-    <div nz-col nzXs="24" nzSm="8">
+    <div *ngIf="flagAdminOuOperador" nz-col nzXs="24" nzSm="8">
       <nz-card>
         <nz-statistic [nzValue]="resumo?.totalQuotes ?? 0" [nzTitle]="idioma.DETALHE_ORCAMENTO.COTACOES"></nz-statistic>
       </nz-card>
     </div>
-    <div nz-col nzXs="24" nzSm="8">
+    <div nz-col nzXs="24" [nzSm]="flagAdminOuOperador ? 8 : 16">
       <nz-card>
         <nz-statistic
           [nzValue]="formatarDataHora(orcamento.createdAt)"
